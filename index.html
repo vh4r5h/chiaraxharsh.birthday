@@ -1,159 +1,250 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Chiara x Harsh</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Montserrat:wght@200;400&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chiara ✨</title>
 
-        :root { --vogue-black: #1a1a1a; --gold: #af944d; --plumeria-yellow: #fff3a3; }
-        
-        body { 
-            margin: 0; padding: 0; background: #fff; 
-            font-family: 'Montserrat', sans-serif; color: var(--vogue-black);
-            display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh; overflow-x: hidden; text-align: center;
-            touch-action: none;
-        }
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-        /* Stylized Plumeria Background Flowers */
-        .plumeria {
-            position: fixed; width: 80px; height: 80px; z-index: 0; opacity: 0.6;
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.05));
-        }
-        .plumeria-top-right { top: -10px; right: -10px; transform: rotate(15deg); }
-        .plumeria-bottom-left { bottom: 20px; left: -20px; transform: rotate(-20deg); }
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Montserrat:wght@200;400&display=swap');
 
-        /* The Flower Shape */
-        .flower-shape {
-            position: relative; width: 100%; height: 100%;
-            background: radial-gradient(circle, var(--plumeria-yellow) 0%, white 60%);
-            clip-path: polygon(50% 0%, 80% 10%, 100% 35%, 100% 70%, 80% 90%, 50% 100%, 20% 90%, 0% 70%, 0% 35%, 20% 10%);
-            border-radius: 50%;
-        }
+:root {
+--black: #111;
+--gold: #c9a44c;
+--warm: #fff3c4;
+}
 
-        .container {
-            z-index: 1; padding: 50px 20px; margin: 40px 15px;
-            background: rgba(255, 255, 255, 0.9); 
-            border: 1px solid #000;
-            max-width: 400px; width: 92%;
-            position: relative; backdrop-filter: blur(5px);
-        }
+body {
+margin:0;
+font-family:'Montserrat',sans-serif;
+background:#fff;
+color:#111;
+text-align:center;
+overflow-x:hidden;
+}
 
-        h1 { font-family: 'Bodoni Moda', serif; font-size: 3.2rem; font-weight: 400; letter-spacing: -1px; margin: 0; text-transform: uppercase; }
-        .made-by { font-style: italic; font-size: 0.8rem; margin: 10px 0 30px 0; font-family: 'Bodoni Moda', serif; letter-spacing: 1px; }
+/* Romantic Candle Mode */
+body.candle {
+background:#0b0b0b;
+color:#f5e6b8;
+}
 
-        /* Hidden Input Vault */
-        #passcode-container { margin-top: 30px; padding-top: 20px; border-top: 0.5px solid #ddd; }
-        .pass-input {
-            width: 100%; padding: 15px 0; margin-bottom: 20px;
-            border: none; border-bottom: 1px solid #000;
-            text-align: center; font-size: 1.5rem; letter-spacing: 12px;
-            background: transparent; outline: none;
-        }
+/* Floating gold metals */
+.metal {
+position:fixed;
+bottom:-50px;
+font-size:18px;
+color:var(--gold);
+opacity:0.7;
+animation: floatUp 12s linear infinite;
+pointer-events:none;
+}
 
-        .timer-box { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 30px 0; }
-        .number { display: block; font-size: 1.4rem; font-family: 'Bodoni Moda', serif; }
-        .label { font-size: 0.5rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.5; }
+@keyframes floatUp {
+0% { transform:translateY(0) rotate(0deg); opacity:0; }
+10% { opacity:0.8; }
+100% { transform:translateY(-120vh) rotate(360deg); opacity:0; }
+}
 
-        #secret-area { display: none; padding: 20px 0; animation: fadeIn 1.5s ease; }
-        
-        .btn-vogue {
-            background: var(--vogue-black); color: white;
-            border: none; padding: 18px; 
-            font-size: 0.65rem; letter-spacing: 3px;
-            text-transform: uppercase; cursor: pointer;
-            width: 100%; font-weight: bold;
-        }
+/* Container */
+.container {
+margin:40px auto;
+padding:40px 20px;
+max-width:420px;
+border:1px solid #000;
+background:rgba(255,255,255,0.95);
+transition:all 1s ease;
+}
 
-        footer { margin-top: auto; padding: 30px; font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.4; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    </style>
+body.candle .container {
+background:rgba(20,15,5,0.85);
+border-color:var(--gold);
+box-shadow:0 0 40px rgba(255,200,100,0.3);
+}
+
+h1 {
+font-family:'Bodoni Moda',serif;
+font-size:3rem;
+margin:0;
+}
+
+.made-by {
+font-style:italic;
+font-size:0.75rem;
+margin:10px 0 25px;
+letter-spacing:1px;
+}
+
+/* Timer */
+.timer-box {
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:10px;
+margin:25px 0;
+}
+
+.number {
+font-family:'Bodoni Moda',serif;
+font-size:1.4rem;
+}
+
+.label {
+font-size:0.5rem;
+letter-spacing:2px;
+opacity:0.6;
+}
+
+/* Passcode */
+.pass-input {
+width:100%;
+padding:15px 0;
+font-size:1.5rem;
+text-align:center;
+border:none;
+border-bottom:1px solid #000;
+background:transparent;
+letter-spacing:12px;
+outline:none;
+color:inherit;
+}
+
+.btn {
+margin-top:15px;
+padding:18px;
+width:100%;
+background:#111;
+color:#fff;
+border:none;
+letter-spacing:3px;
+font-size:0.65rem;
+text-transform:uppercase;
+cursor:pointer;
+}
+
+body.candle .btn {
+background:var(--gold);
+color:#111;
+}
+
+/* Secret */
+#secret {
+display:none;
+animation:fade 2s ease;
+}
+
+@keyframes fade {
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:none;}
+}
+
+/* Candle flame */
+.candle {
+width:12px;
+height:25px;
+background:radial-gradient(circle,#ffd27d 0%,#ff9f1c 60%,transparent 70%);
+margin:20px auto;
+border-radius:50%;
+animation:flicker 0.15s infinite alternate;
+display:none;
+}
+
+body.candle .candle { display:block; }
+
+@keyframes flicker {
+from { transform:scaleY(1); }
+to { transform:scaleY(0.85); }
+}
+
+footer {
+margin:40px 0;
+font-size:0.6rem;
+letter-spacing:2px;
+opacity:0.5;
+}
+</style>
 </head>
+
 <body>
 
-    <div class="plumeria plumeria-top-right"><div class="flower-shape"></div></div>
-    <div class="plumeria plumeria-bottom-left"><div class="flower-shape"></div></div>
+<div class="container" id="card">
+<h1>Chiara</h1>
+<div class="made-by">Made with love par ton petit chou</div>
 
-    <div class="container">
-        <h1>Chiara</h1>
-        <div class="made-by">Made with love par ton petit chou Harsh</div>
-        
-        <div id="main-content">
-            <div id="countdown-wrapper">
-                <div class="timer-box">
-                    <div class="time-unit"><span id="days" class="number">00</span><span class="label">Days</span></div>
-                    <div class="time-unit"><span id="hours" class="number">00</span><span class="label">Hrs</span></div>
-                    <div class="time-unit"><span id="minutes" class="number">00</span><span class="label">Min</span></div>
-                    <div class="time-unit"><span id="seconds" class="number">00</span><span class="label">Sec</span></div>
-                </div>
-            </div>
+<p style="font-size:0.6rem;letter-spacing:2px;">
+Since 18·09 💫
+</p>
 
-            <div id="passcode-container">
-                <p style="font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px;">Private Access</p>
-                <input type="password" id="passInput" class="pass-input" placeholder="••••" maxlength="4">
-                <button class="btn-vogue" onclick="checkCode()">Unlock Vault</button>
-            </div>
-        </div>
+<div class="timer-box">
+<div><span id="d" class="number">00</span><div class="label">Days</div></div>
+<div><span id="h" class="number">00</span><div class="label">Hrs</div></div>
+<div><span id="m" class="number">00</span><div class="label">Min</div></div>
+<div><span id="s" class="number">00</span><div class="label">Sec</div></div>
+</div>
 
-        <div id="secret-area">
-            <p style="font-family: 'Bodoni Moda', serif; font-size: 1.25rem; line-height: 1.6; font-style: italic;">
-                "Happy birthday mon amour!!! Je t'aime fort mon bébé. Ce site web est un petit cadeau de ton Harsh. Hoping to see you become a model one day. Tche mari zolie ma chérie d'amour gâtée"
-            </p>
-            <p style="letter-spacing: 3px; font-size: 0.7rem; margin: 25px 0;">— POUR TOUJOURS, HARSH</p>
-            <button class="btn-vogue" onclick="sendKisses()" style="background: #e91e63;">Kisses from Harsh 💋</button>
-        </div>
-    </div>
+<input type="password" maxlength="4" id="pass" class="pass-input" placeholder="••••">
+<button class="btn" onclick="unlock()">Unlock</button>
 
-    <footer>Harsh ❤️ Chiara | © 2026</footer>
+<div id="secret">
+<div class="candle"></div>
+<p style="font-family:'Bodoni Moda',serif;font-size:1.2rem;font-style:italic;line-height:1.6;">
+“Happy birthday mon amour!!! Je t'aime fort mon bébé.  
+Ce site web est un petit cadeau de ton petit chou.  
+Hoping to see you become a model one day.  
+Tche mari zolie ma chérie d'amour gâtée.”
+</p>
 
-    <script>
-        const PASSCODE = "1901";
+<button class="btn" onclick="toggleCandle()">Candle Mode 🕯️</button>
+</div>
+</div>
 
-        function updateUI() {
-            const now = new Date();
-            const bday = new Date(now.getFullYear(), 1, 1);
-            if (now > bday) bday.setFullYear(now.getFullYear() + 1);
-            const diff = bday - now;
-            
-            document.getElementById('days').innerText = String(Math.floor(diff / 86400000)).padStart(2, '0');
-            document.getElementById('hours').innerText = String(Math.floor((diff / 3600000) % 24)).padStart(2, '0');
-            document.getElementById('minutes').innerText = String(Math.floor((diff / 60000) % 60)).padStart(2, '0');
-            document.getElementById('seconds').innerText = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
-        }
+<footer>Pour toujours ✨</footer>
 
-        function checkCode() {
-            const val = document.getElementById('passInput').value;
-            if (val === PASSCODE) {
-                document.getElementById('main-content').style.display = "none";
-                document.getElementById('secret-area').style.display = "block";
-                sendKisses();
-            } else {
-                alert("Incorrect. ❤️");
-                document.getElementById('passInput').value = "";
-            }
-        }
+<script>
+const PASS="1809";
 
-        function sendKisses() {
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#fff3a3', '#ff69b4', '#ffffff'] });
-        }
+/* Countdown since talking date */
+function update(){
+const start=new Date(new Date().getFullYear(),8,18);
+let diff=Date.now()-start;
+if(diff<0) diff=0;
+d.innerText=Math.floor(diff/86400000);
+h.innerText=Math.floor(diff/3600000)%24;
+m.innerText=Math.floor(diff/60000)%60;
+s.innerText=Math.floor(diff/1000)%60;
+}
+setInterval(update,1000); update();
 
-        setInterval(updateUI, 1000);
-        updateUI();
+function unlock(){
+if(pass.value===PASS){
+secret.style.display="block";
+confetti({particleCount:150,spread:80,colors:['#c9a44c','#fff','#ffb6c1']});
+goldRain();
+}else{
+pass.value="";
+alert("❤️");
+}
+}
 
-        // Finger sparkle trail
-        document.addEventListener('touchmove', (e) => {
-            const s = document.createElement('div');
-            s.innerHTML = '✨';
-            s.style.position = 'absolute';
-            s.style.left = e.touches[0].pageX + 'px';
-            s.style.top = e.touches[0].pageY + 'px';
-            s.style.pointerEvents = 'none';
-            document.body.appendChild(s);
-            s.animate([{opacity: 1}, {opacity: 0}], 800).onfinish = () => s.remove();
-        });
-    </script>
+/* Candle mode */
+function toggleCandle(){
+document.body.classList.toggle("candle");
+}
+
+/* Floating gold metals */
+function goldRain(){
+setInterval(()=>{
+const m=document.createElement("div");
+m.className="metal";
+m.innerHTML=Math.random()>0.5?"💛":"✨";
+m.style.left=Math.random()*100+"vw";
+m.style.animationDuration=8+Math.random()*6+"s";
+document.body.appendChild(m);
+setTimeout(()=>m.remove(),14000);
+},500);
+}
+</script>
+
 </body>
 </html>
