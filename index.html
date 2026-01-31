@@ -15,28 +15,31 @@
             font-family: 'Montserrat', sans-serif; color: var(--black);
             min-height: 100vh; width: 100%; overflow: hidden;
             display: flex; align-items: center; justify-content: center;
+            transition: all 2s ease;
         }
 
-        /* Ambient Flowers (Built-in SVG for stability) */
+        /* Realistic 5-Petal Plumeria SVG */
         .flower {
-            position: absolute; width: 120px; height: 120px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 50 Q75 0 100 50 Q75 100 50 50 Q25 100 0 50 Q25 0 50 50' fill='white'/%3E%3Ccircle cx='50' cy='50' r='10' fill='%23fff3a3'/%3E%3C/svg%3E");
-            background-size: contain; opacity: 0.6; z-index: 1; pointer-events: none;
-            animation: float 15s infinite ease-in-out;
+            position: absolute; width: 110px; height: 110px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500'%3E%3Cg fill='%23ffffff' stroke='%23f0f0f0' stroke-width='2'%3E%3Cpath d='M250,250 C220,180 150,150 120,200 C90,250 150,320 250,250 Z'/%3E%3Cpath d='M250,250 C180,220 150,290 200,380 C250,470 320,350 250,250 Z'/%3E%3Cpath d='M250,250 C220,320 290,450 380,400 C470,350 350,280 250,250 Z'/%3E%3Cpath d='M250,250 C320,280 450,210 400,120 C350,30 280,150 250,250 Z'/%3E%3Cpath d='M250,250 C320,180 350,50 260,40 C170,30 210,150 250,250 Z'/%3E%3C/g%3E%3CradialGradient id='centerG' cx='50%25' cy='50%25' r='30%25'%3E%3Cstop offset='0%25' style='stop-color:%23fff3a3;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23ffffff;stop-opacity:0' /%3E%3C/radialGradient%3E%3Ccircle cx='250' cy='250' r='70' fill='url(%23centerG)'/%3E%3C/svg%3E");
+            background-size: contain; opacity: 0.7; z-index: 1; pointer-events: none;
+            animation: float 18s infinite ease-in-out;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
         }
 
-        @keyframes float { 0%, 100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(15px, 25px) rotate(20deg); } }
+        @keyframes float { 0%, 100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(20px, 30px) rotate(25deg); } }
 
         .container {
             position: relative; z-index: 10; background: rgba(255, 255, 255, 0.95);
             border: 1px solid var(--black); width: 85%; max-width: 340px;
             padding: 40px 20px; box-shadow: 15px 15px 0px rgba(0,0,0,0.05); text-align: center;
+            transition: all 2s ease;
         }
 
         h1 { font-family: 'Bodoni Moda', serif; font-size: 2.8rem; letter-spacing: 8px; margin: 0; text-transform: uppercase; border-bottom: 2px solid var(--gold); display: inline-block; padding-bottom: 5px; }
-        .date-sub { font-size: 0.6rem; letter-spacing: 4px; margin-top: 15px; opacity: 0.6; text-transform: uppercase; }
+        .date-sub { font-size: 0.6rem; letter-spacing: 4px; margin-top: 15px; opacity: 0.6; text-transform: uppercase; transition: all 1s ease; }
 
-        .timer { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin: 30px 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 15px 0; }
+        .timer { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin: 30px 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 15px 0; transition: all 1s ease; }
         .t-n { font-family: 'Bodoni Moda', serif; font-size: 1.2rem; color: var(--gold); font-weight: bold; }
         .t-l { font-size: 0.4rem; text-transform: uppercase; letter-spacing: 1px; }
 
@@ -44,25 +47,42 @@
         .message { font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 1.1rem; line-height: 1.6; }
         .sig { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 20px; border-left: 2px solid var(--gold); padding-left: 10px; font-weight: 600; }
 
-        input { background: transparent; border: none; border-bottom: 2px solid var(--black); width: 100px; text-align: center; font-size: 1.5rem; letter-spacing: 5px; outline: none; font-family: 'Bodoni Moda', serif; }
+        input { background: transparent; border: none; border-bottom: 2px solid var(--black); width: 100px; text-align: center; font-size: 1.5rem; letter-spacing: 5px; outline: none; font-family: 'Bodoni Moda', serif; transition: all 1s ease; }
         .btn { background: var(--black); color: white; border: none; width: 100%; padding: 18px; margin-top: 25px; font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; cursor: pointer; }
 
-        body.dark { background-color: #0d0d0d; color: var(--gold); }
-        body.dark .container { background: #1a1a1a; border-color: var(--gold); }
-        body.dark input { border-bottom-color: var(--gold); color: white; }
+        /* MIDNIGHT OVERLAY */
+        #midnight-curtain {
+            position: fixed; top:0; left:0; width:100vw; height:100vh;
+            background: linear-gradient(135deg, #000 0%, #af944d 100%);
+            z-index: 999; display: none; align-items: center; justify-content: center; flex-direction: column;
+            opacity: 0; transition: opacity 2s ease;
+        }
+        #midnight-curtain h2 { color: var(--gold); font-family: 'Bodoni Moda'; letter-spacing: 5px; font-size: 1.5rem; text-transform: uppercase; text-align: center; }
+
+        /* Dark Mode States */
+        body.dark-mode { background-color: #080808; }
+        body.dark-mode .container { background: #111; border-color: var(--gold); }
+        body.dark-mode h1, body.dark-mode .t-n, body.dark-mode .message, body.dark-mode .sig { color: var(--gold); }
+        body.dark-mode .date-sub, body.dark-mode .t-l, body.dark-mode p { color: #888; }
+        body.dark-mode input { border-bottom-color: var(--gold); color: var(--gold); }
+        body.dark-mode .timer { border-color: #333; }
     </style>
 </head>
-<body id="body">
+<body>
 
-    <button style="position:fixed; top:20px; right:20px; background:none; border:none; font-size:1.5rem; z-index:100;" onclick="document.getElementById('body').classList.toggle('dark')">🕯️</button>
+    <div id="midnight-curtain">
+        <h2>The Wait Is Over.</h2>
+        <h2 style="font-size: 1rem; margin-top: 20px;">Happy Birthday Chiara</h2>
+    </div>
 
-    <div class="flower" style="top: 5%; left: 5%;"></div>
-    <div class="flower" style="bottom: 10%; right: 10%; animation-delay: -5s; width: 80px;"></div>
+    <div class="flower" style="top: 5%; left: -10px;"></div>
+    <div class="flower" style="bottom: 15%; right: -20px; animation-delay: -5s; width: 90px; height: 90px;"></div>
+    <div class="flower" style="top: 40%; right: 5%; width: 70px; height: 70px; opacity: 0.4; animation-delay: -8s;"></div>
 
     <div class="container">
         <div id="lock-screen">
             <h1>Chiara</h1>
-            <div class="date-sub">01 . 02 . 2009</div>
+            <div class="date-sub" id="date-label">01 . 02 . 2009</div>
             <div class="timer">
                 <div><span id="d" class="t-n">00</span><br><span class="t-l">Days</span></div>
                 <div><span id="h" class="t-n">00</span><br><span class="t-l">Hrs</span></div>
@@ -81,15 +101,34 @@
                 Tche mari zolie ma chérie d'amour gâtée"
             </div>
             <div class="sig">Made with love par ton amour Harsh</div>
-            <button class="btn" onclick="celebrate()">Receive Kisses 💋</button>
+            <button class="btn" onclick="finalCelebrate()">Receive Kisses 💋</button>
         </div>
     </div>
 
     <script>
         const CODE = "1809";
+        let midnightPassed = false;
 
         function update() {
             const now = new Date();
+            // Month 1 is February. Check if it's Feb 1st or later.
+            const isBirthday = (now.getMonth() === 1 && now.getDate() >= 1);
+            
+            if (isBirthday) {
+                // THE MIDNIGHT TRIGGER
+                if (!midnightPassed) {
+                    midnightPassed = true;
+                    triggerMidnightPortal();
+                }
+                // Ensure timer stays at 00
+                document.getElementById('d').innerText = "00";
+                document.getElementById('h').innerText = "00";
+                document.getElementById('m').innerText = "00";
+                document.getElementById('s').innerText = "00";
+                document.getElementById('date-label').innerText = "✨ IT IS YOUR DAY ✨";
+                return; 
+            }
+
             let target = new Date(now.getFullYear(), 1, 1);
             if (now > target) target.setFullYear(now.getFullYear() + 1);
             const diff = target - now;
@@ -99,30 +138,50 @@
             document.getElementById('s').innerText = Math.floor((diff / 1000) % 60);
         }
 
+        function triggerMidnightPortal() {
+            const curtain = document.getElementById('midnight-curtain');
+            // 1. Show Curtain
+            curtain.style.display = 'flex';
+            setTimeout(() => { curtain.style.opacity = '1'; }, 50);
+            
+            // 2. Massive Confetti Burst behind curtain
+            var end = Date.now() + (5 * 1000);
+            (function frame() {
+                confetti({ particleCount: 10, angle: 60, spread: 80, origin: { x: 0 }, colors: ['#af944d', '#fff'] });
+                confetti({ particleCount: 10, angle: 120, spread: 80, origin: { x: 1 }, colors: ['#af944d', '#fff'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+
+            // 3. Switch to Dark Mode & Hide Curtain after 7 seconds
+            setTimeout(() => {
+                document.body.classList.add('dark-mode');
+                curtain.style.opacity = '0';
+                setTimeout(() => { curtain.style.display = 'none'; }, 2000);
+            }, 7000);
+        }
+
         document.getElementById('pass').addEventListener('input', function() {
             if (this.value === CODE) {
                 document.getElementById('lock-screen').style.display = 'none';
                 document.getElementById('secret-area').style.display = 'block';
-                celebrate();
+                // If it's actually her birthday, give an extra big celebration on unlock
+                if (midnightPassed) {
+                     confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 }, colors: ['#af944d', '#ff0000', '#ffffff'] });
+                } else {
+                     celebrate();
+                }
                 this.blur();
             }
         });
 
         function celebrate() {
-            // High-reliability Kiss Reveal
-            const duration = 2 * 1000;
-            const end = Date.now() + duration;
-
-            (function frame() {
-              confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff0000', '#ff69b4'] });
-              confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff0000', '#ff69b4'] });
-
-              if (Date.now() < end) {
-                requestAnimationFrame(frame);
-              }
-            }());
-            
             confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#af944d', '#ffffff'] });
+        }
+
+        function finalCelebrate() {
+            const scalar = 2.5; const kiss = confetti.shapeFromText({ text: '💋', scalar });
+            confetti({ shapes: [kiss], particleCount: 50, spread: 90, origin: { y: 0.7 }, scalar });
+            confetti({ particleCount: 100, spread: 120, colors: ['#af944d', '#ffffff'], origin: { y: 0.7 } });
         }
 
         setInterval(update, 1000); update();
