@@ -25,9 +25,10 @@
             font-family: 'Montserrat', sans-serif;
             display: flex; align-items: center; justify-content: center;
             overflow: hidden;
+            flex-direction: column;
         }
 
-        /* --- Romantic Plumeria Flowers --- */
+        /* --- Lively Plumeria Flowers --- */
         .flower-container {
             position: absolute; width: 100px; height: 100px;
             z-index: 2; pointer-events: none;
@@ -60,7 +61,6 @@
         }
         @keyframes rotateFlower { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* --- Floating Hearts Background --- */
         .bg-heart {
             position: absolute; pointer-events: none; z-index: 1;
             color: var(--soft-rose); opacity: 0.5;
@@ -73,11 +73,10 @@
             100% { transform: translateY(-20vh) scale(1.2) rotate(360deg); opacity: 0; }
         }
 
-        /* --- Main Content Card --- */
         .container {
             position: relative; z-index: 10;
             width: 90%; max-width: 360px;
-            padding: 45px 25px;
+            padding: 40px 25px;
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -87,11 +86,7 @@
             text-align: center;
         }
 
-        h1 {
-            font-family: 'Dancing Script', cursive; 
-            font-size: 3.8rem; color: var(--hot-pink);
-            margin: 0;
-        }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 3.8rem; color: var(--hot-pink); margin: 0; }
 
         .heart-pulse {
             font-size: 2.2rem; color: var(--hot-pink);
@@ -106,10 +101,7 @@
             45% { transform: scale(1.15); }
         }
 
-        .date-sub {
-            font-family: 'Playfair Display', serif; font-style: italic;
-            color: var(--soft-rose); letter-spacing: 2px; margin-bottom: 20px; font-weight: 600;
-        }
+        .date-sub { font-family: 'Playfair Display', serif; font-style: italic; color: var(--soft-rose); letter-spacing: 2px; margin-bottom: 20px; font-weight: 600; }
 
         .timer {
             display: flex; justify-content: space-around;
@@ -126,32 +118,36 @@
             font-size: 1.6rem; text-align: center; color: var(--hot-pink);
             outline: none; transition: 0.3s; font-family: 'Playfair Display', serif;
         }
-        input:focus { border-color: var(--hot-pink); box-shadow: 0 0 15px rgba(255, 77, 109, 0.2); }
 
         .btn {
             background: linear-gradient(to right, var(--hot-pink), var(--soft-rose));
             color: white; border: none; width: 100%; padding: 20px;
             border-radius: 50px; font-weight: 700; letter-spacing: 2px;
-            margin-top: 30px; cursor: pointer; text-transform: uppercase;
+            margin-top: 15px; cursor: pointer; text-transform: uppercase;
             box-shadow: 0 10px 20px rgba(255, 77, 109, 0.4);
         }
 
-        /* --- Touch Feedback --- */
-        .tap-heart {
-            position: fixed; pointer-events: none; z-index: 9999;
-            animation: flyUp 1.2s ease-out forwards;
-        }
+        .tap-heart { position: fixed; pointer-events: none; z-index: 9999; animation: flyUp 1.2s ease-out forwards; }
         @keyframes flyUp {
             0% { opacity: 1; transform: translateY(0) scale(1); }
             100% { opacity: 0; transform: translateY(-120px) scale(2.5) rotate(45deg); }
         }
 
-        /* --- Secret Message Styling --- */
         #secret-area { display: none; animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
         
-        .message { font-family: 'Playfair Display', serif; font-size: 1.25rem; line-height: 1.7; color: #333; text-align: center; }
-        .message strong { color: var(--hot-pink); }
+        .message { font-family: 'Playfair Display', serif; font-size: 1.25rem; line-height: 1.7; color: #333; }
+        
+        /* --- New Dedicated Quote Style --- */
+        .lovey-quote { font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: var(--hot-pink); margin: 20px 0 10px 0; }
+
+        /* --- Website Ownership Footer --- */
+        .footer-credit {
+            position: absolute; bottom: 20px;
+            font-size: 0.6rem; color: var(--soft-rose);
+            text-transform: uppercase; letter-spacing: 2px;
+            opacity: 0.8; font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -160,9 +156,6 @@
         <div class="flower-inner"><div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div><div class="petal p4"></div><div class="petal p5"></div></div>
     </div>
     <div class="flower-container" style="top: 65%; right: 5%; animation-delay: -5s; transform: scale(0.75);">
-        <div class="flower-inner"><div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div><div class="petal p4"></div><div class="petal p5"></div></div>
-    </div>
-    <div class="flower-container" style="bottom: 5%; left: 8%; animation-delay: -10s; transform: scale(0.85);">
         <div class="flower-inner"><div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div><div class="petal p4"></div><div class="petal p5"></div></div>
     </div>
 
@@ -186,25 +179,29 @@
             </div>
 
             <input type="password" id="pass" placeholder="••••" inputmode="numeric" maxlength="4">
-            <p class="vault-label" style="font-family: 'Playfair Display'; font-style: italic; font-size: 0.7rem; color: var(--soft-rose); margin-top: 15px;">Tape notre code secret, mon cœur...</p>
+            <p style="font-family: 'Playfair Display'; font-style: italic; font-size: 0.7rem; color: var(--soft-rose); margin-top: 15px;">Tape notre code secret, mon cœur...</p>
         </div>
 
         <div id="secret-area">
             <div class="message">
                 "Joyeux anniversaire mon amour!!! <br><br>
-                Je t'aime trop fort mon bébé. Ce site est un petit morceau de mon cœur pour toi, mon <strong>petit chou</strong>. <br><br>
+                Je t'aime trop fort mon bébé. Ce site est un petit cadeau de ton <strong>petit chou</strong>. <br><br>
                 Hoping to see you become a model one day. <br>
                 Tche mari zolie ma chérie d'amour gâtée 🌹"
             </div>
-            <p style="font-family: 'Dancing Script'; color: var(--hot-pink); font-size: 1.8rem; margin-top: 25px; margin-bottom: 0;">Ton Harsh qui t'aime</p>
+            
+            <div class="lovey-quote">"I love you Chiara"</div>
+            <p style="font-family: 'Dancing Script'; color: var(--hot-pink); font-size: 1.5rem; margin: 0;">Ton Harsh qui t'aime</p>
+            
             <button class="btn" onclick="finalCelebrate()">Mille Bisous 💋</button>
         </div>
     </div>
 
+    <div class="footer-credit">This website belongs to Chiara and Harsh</div>
+
     <script>
         const CODE = "1809";
         
-        // Touch interaction for iPhone (Lively hearts on tap)
         document.addEventListener('touchstart', (e) => {
             const h = document.createElement('div');
             h.innerHTML = '✨💖✨';
@@ -217,19 +214,15 @@
 
         function updateCountdown() {
             const now = new Date();
-            // Birthday is February 1st
             const isBday = (now.getMonth() === 1 && now.getDate() >= 1);
-
             if (isBday) {
                 document.querySelector('h1').innerText = "Bon Anniversaire !";
-                ['d','h','m','s'].forEach(id => document.getElementById(id).innerText = "00");
+                ['d','h','m','s'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).innerText = "00"; });
                 return;
             }
-
             let target = new Date(now.getFullYear(), 1, 1);
             if (now > target) target.setFullYear(now.getFullYear() + 1);
             const diff = target - now;
-
             document.getElementById('d').innerText = Math.floor(diff / 86400000).toString().padStart(2, '0');
             document.getElementById('h').innerText = Math.floor((diff / 3600000) % 24).toString().padStart(2, '0');
             document.getElementById('m').innerText = Math.floor((diff / 60000) % 60).toString().padStart(2, '0');
@@ -245,15 +238,7 @@
         });
 
         function finalCelebrate() {
-            // Heart-colored confetti
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#ff4d6d', '#ffffff', '#ff0000']
-            });
-            
-            // Shower of floating kisses
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ff4d6d', '#ffffff', '#ff0000'] });
             for(let i=0; i<15; i++) {
                 setTimeout(() => {
                     const kiss = document.createElement('div');
@@ -268,7 +253,6 @@
                 }, i * 180);
             }
         }
-
         setInterval(updateCountdown, 1000);
         updateCountdown();
     </script>
