@@ -216,6 +216,11 @@
             document.getElementById('h').innerText = Math.floor((diff / 3600000) % 24).toString().padStart(2, '0');
             document.getElementById('m').innerText = Math.floor((diff / 60000) % 60).toString().padStart(2, '0');
             document.getElementById('s').innerText = Math.floor((diff / 1000) % 60).toString().padStart(2, '0');
+            
+            // Celebration Trigger: If it's Feb 1st
+            if (now.getMonth() === 1 && now.getDate() === 1) {
+                if (Math.random() > 0.95) finalCelebrate(); // Random bursts
+            }
         }
 
         function startTypewriter() {
@@ -248,6 +253,20 @@
         function sendToHarsh() {
             const text = document.getElementById('chiara-msg').value;
             window.open(`https://wa.me/${MY_PHONE}?text=${encodeURIComponent("💌 Infinity Kisses de Chiara : " + (text || "💋💋💋"))}`, '_blank');
+        }
+
+        // Check if today is Feb 1st to boost effects
+        const today = new Date();
+        if (today.getMonth() === 1 && today.getDate() === 1) {
+             setInterval(finalCelebrate, 3000); // Massive confetti every 3 seconds
+             // Extra Hearts on Feb 1st
+             setInterval(() => {
+                const kiss = document.createElement('div');
+                kiss.className = 'sticker'; kiss.innerHTML = '💋';
+                kiss.style.left = Math.random() * 100 + 'vw'; kiss.style.top = Math.random() * 100 + 'vh';
+                document.body.appendChild(kiss);
+                setTimeout(() => kiss.remove(), 800);
+             }, 500);
         }
 
         spawnHearts(); spawnHarshAndLove(); spawnPlumeria();
