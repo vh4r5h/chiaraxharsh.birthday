@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>CHIARA | EXCLUSIVE</title>
+    <title>CHIARA | L'ÉTERNEL</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@100;300;600&display=swap');
 
         :root { 
-            --gold: #c5a059; 
+            --gold: #af944d; 
             --deep-black: #0a0a0a;
             --vogue-white: #fcfcfc;
+            --plumeria-center: #fff3a3;
         }
         
         body { 
             margin: 0; padding: 0; background: var(--vogue-white); 
             font-family: 'Montserrat', sans-serif; color: var(--deep-black);
-            min-height: 100vh; width: 100vw; overflow-x: hidden;
+            min-height: 100vh; width: 100vw; overflow: hidden;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: background 1.5s ease;
         }
@@ -29,20 +30,33 @@
             pointer-events: none; z-index: 100;
         }
 
-        .bg-glow {
-            position: fixed; width: 100vw; height: 100vh; z-index: -1;
-            background: radial-gradient(circle at 15% 15%, rgba(197, 160, 89, 0.12) 0%, transparent 45%),
-                        radial-gradient(circle at 85% 85%, rgba(197, 160, 89, 0.08) 0%, transparent 45%);
+        /* Animated Floating Plumerias */
+        .flower-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none; overflow: hidden;
+        }
+
+        .plumeria {
+            position: absolute; width: 80px; height: 80px;
+            background: radial-gradient(circle at center, var(--plumeria-center) 0%, #fff 60%);
+            clip-path: polygon(50% 0%, 80% 10%, 100% 35%, 100% 70%, 80% 90%, 50% 100%, 20% 90%, 0% 70%, 0% 35%, 20% 10%);
+            opacity: 0.4; filter: blur(1px);
+            animation: float-flower 20s infinite linear;
+        }
+
+        @keyframes float-flower {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(20px, 40px) rotate(180deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
         }
 
         .glass-container {
-            background: rgba(255, 255, 255, 0.65);
+            background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
             border: 0.5px solid rgba(0,0,0,0.1);
-            padding: 40px 20px; width: 85%; max-width: 340px;
+            padding: 45px 25px; width: 85%; max-width: 340px;
             text-align: center; position: relative; z-index: 10;
             box-shadow: 0 40px 80px rgba(0,0,0,0.05);
-            border-radius: 2px;
         }
 
         h1 { 
@@ -69,137 +83,28 @@
             border-radius: 0; -webkit-appearance: none;
         }
 
-        /* Reliable Reveal Logic */
         #secret-area { display: none; opacity: 0; transform: translateY(15px); transition: all 1s ease; }
         #secret-area.active { display: block !important; opacity: 1; transform: translateY(0); }
 
         .message-body {
             font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 1.15rem;
-            line-height: 1.7; color: #1a1a1a; margin-bottom: 25px; text-align: left;
+            line-height: 1.7; color: #1a1a1a; margin-bottom: 20px; text-align: left;
+        }
+
+        .signature {
+            font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
+            margin-bottom: 30px; opacity: 0.7; font-weight: 600; text-align: left;
         }
 
         .btn-gold {
             background: var(--gold); color: white; border: none; 
             padding: 16px; font-size: 0.6rem; letter-spacing: 3px; 
-            text-transform: uppercase; width: 100%; cursor: pointer;
-            font-weight: 600;
+            text-transform: uppercase; width: 100%; cursor: pointer; font-weight: 600;
         }
 
         .candle-toggle {
             position: fixed; top: 30px; right: 20px; background: none; border: none;
-            font-size: 1.2rem; z-index: 500; cursor: pointer; padding: 10px;
+            font-size: 1.2rem; z-index: 500; cursor: pointer;
         }
 
-        body.candle-mode { background: #050505; }
-        body.candle-mode .glass-container { background: rgba(15, 15, 15, 0.9); border-color: var(--gold); color: var(--gold); }
-        body.candle-mode .message-body { color: var(--gold); }
-        body.candle-mode input { border-bottom-color: var(--gold); color: var(--gold); }
-
-        footer { position: absolute; bottom: 20px; font-size: 0.45rem; letter-spacing: 3px; opacity: 0.3; text-transform: uppercase; }
-    </style>
-</head>
-<body>
-
-    <button class="candle-toggle" onclick="document.body.classList.toggle('candle-mode')" aria-label="Toggle Candle Mode">🕯️</button>
-    <div class="bg-glow"></div>
-
-    <div class="glass-container">
-        
-        <div id="countdown-view">
-            <h1>Chiara</h1>
-            <div class="subtitle">Collection Privée • 01.02</div>
-            
-            <div class="timer-row">
-                <div class="t-box"><span id="days" class="t-num">00</span><span class="t-lab">Days</span></div>
-                <div class="t-box"><span id="hours" class="t-num">00</span><span class="t-lab">Hrs</span></div>
-                <div class="t-box"><span id="mins" class="t-num">00</span><span class="t-lab">Min</span></div>
-                <div class="t-box"><span id="secs" class="t-num">00</span><span class="t-lab">Sec</span></div>
-            </div>
-
-            <div class="lock-zone">
-                <input type="password" id="passInput" placeholder="••••" inputmode="numeric" maxlength="4">
-                <p style="font-size: 0.4rem; letter-spacing: 2px; margin-top: 15px; opacity: 0.4;">UNLOCKED BY A SHARED MEMORY</p>
-            </div>
-        </div>
-
-        <div id="secret-area">
-            <div class="message-body">
-                "Happy birthday mon amour!!! <br><br>
-                Je t'aime fort mon bébé. Ce site web est un petit cadeau de ton <strong>petit chou</strong>. <br><br>
-                Hoping to see you become a model one day. <br>
-                Tche mari zolie ma chérie d'amour gâtée"
-            </div>
-            <button onclick="celebrate()" class="btn-gold">Receive Your Kisses 💋</button>
-        </div>
-
-    </div>
-
-    <footer>Archive Éternelle — Harsh & Chiara</footer>
-
-    <script>
-        const THE_SECRET = "1809";
-
-        function updateCountdown() {
-            const now = new Date();
-            // Month 1 is February
-            let bday = new Date(now.getFullYear(), 1, 1, 0, 0, 0);
-
-            if (now > bday) {
-                bday = new Date(now.getFullYear() + 1, 1, 1, 0, 0, 0);
-            }
-
-            const diff = bday - now;
-            
-            const d = Math.floor(diff / 86400000);
-            const h = Math.floor((diff % 86400000) / 3600000);
-            const m = Math.floor((diff % 3600000) / 60000);
-            const s = Math.floor((diff % 60000) / 1000);
-
-            document.getElementById('days').textContent = String(d).padStart(2, '0');
-            document.getElementById('hours').textContent = String(h).padStart(2, '0');
-            document.getElementById('mins').textContent = String(m).padStart(2, '0');
-            document.getElementById('secs').textContent = String(s).padStart(2, '0');
-        }
-
-        document.getElementById('passInput').addEventListener('input', function(e) {
-            if (this.value === THE_SECRET) {
-                const cv = document.getElementById('countdown-view');
-                const sa = document.getElementById('secret-area');
-                
-                cv.style.display = 'none';
-                sa.classList.add('active');
-                celebrate();
-                // Ensure keyboard closes on mobile
-                this.blur();
-            } else if (this.value.length === 4) {
-                this.value = '';
-                // Simple vibrate-style animation for wrong code
-                this.parentElement.animate([
-                    { transform: 'translateX(-5px)' },
-                    { transform: 'translateX(5px)' },
-                    { transform: 'translateX(0)' }
-                ], { duration: 200 });
-            }
-        });
-
-        function celebrate() {
-            const colors = ['#c5a059', '#000000', '#ff69b4', '#ffffff'];
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: colors });
-        }
-
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
-
-        // Cross-platform touch trail
-        const handleTouch = (e) => {
-            const t = e.touches ? e.touches[0] : e;
-            const s = document.createElement('div');
-            s.innerHTML = '✧';
-            s.style.cssText = `position:absolute; color:var(--gold); left:${t.pageX}px; top:${t.pageY}px; pointer-events:none; z-index:1000;`;
-            document.body.appendChild(s);
-            s.animate([{opacity: 1}, {opacity: 0, transform: 'translateY(-20px)'}], 1000).onfinish = () => s.remove();
-        };
-        document.addEventListener('touchstart', handleTouch);
-    </script>
-</body>
-</html>
+        body.candle-mode { background:
