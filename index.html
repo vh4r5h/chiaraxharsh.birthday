@@ -21,31 +21,35 @@
             display: flex; align-items: center; justify-content: center;
         }
 
-        /* Subtle Luxury Texture */
+        /* Ambient Background */
         .bg-texture {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, #fff 0%, #f2f2f2 100%);
+            background: radial-gradient(circle at 50% 50%, #fff 0%, #f9f9f9 100%);
             z-index: -1;
         }
 
-        /* Floating Plumeria Elements (Stable Version) */
+        /* Real Plumeria Images */
         .flower {
-            position: absolute; font-size: 50px; opacity: 0.3;
-            animation: float 10s infinite ease-in-out; z-index: 1;
+            position: absolute; width: 100px; height: 100px;
+            background-image: url('https://i.ibb.co/Vv0M3Wf/plumeria.png'); /* High quality white plumeria */
+            background-size: contain; background-repeat: no-repeat;
+            opacity: 0.7; z-index: 1; pointer-events: none;
+            filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.1));
+            animation: float 12s infinite ease-in-out;
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(20deg); }
+            0%, 100% { transform: translate(0,0) rotate(0deg); }
+            50% { transform: translate(15px, -20px) rotate(15deg); }
         }
 
         .container {
             position: relative; z-index: 10;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.9);
             border: 1px solid var(--black);
             width: 85%; max-width: 340px;
             padding: 40px 20px;
-            box-shadow: 15px 15px 0px rgba(0,0,0,0.05);
+            box-shadow: 20px 20px 0px rgba(0,0,0,0.04);
             text-align: center;
         }
 
@@ -58,7 +62,6 @@
 
         .date-sub { font-size: 0.6rem; letter-spacing: 4px; margin-top: 15px; opacity: 0.6; text-transform: uppercase; }
 
-        /* Timer Grid */
         .timer {
             display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px;
             margin: 30px 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee;
@@ -67,12 +70,10 @@
         .t-n { font-family: 'Bodoni Moda', serif; font-size: 1.2rem; color: var(--gold); font-weight: bold; }
         .t-l { font-size: 0.4rem; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Secret Vault Styling */
         #secret-area { display: none; }
         .message { font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 1.1rem; line-height: 1.6; text-align: left; }
-        .sig { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 20px; border-left: 2px solid var(--gold); padding-left: 10px; text-align: left; }
+        .sig { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 20px; border-left: 2px solid var(--gold); padding-left: 10px; text-align: left; font-weight: 600; }
 
-        /* Controls */
         input {
             background: transparent; border: none; border-bottom: 2px solid var(--black);
             width: 100px; text-align: center; font-size: 1.5rem; letter-spacing: 5px;
@@ -81,14 +82,13 @@
 
         .btn {
             background: var(--black); color: white; border: none; width: 100%;
-            padding: 15px; margin-top: 20px; font-size: 0.6rem; letter-spacing: 2px;
-            text-transform: uppercase; font-weight: 600;
+            padding: 18px; margin-top: 25px; font-size: 0.7rem; letter-spacing: 3px;
+            text-transform: uppercase; font-weight: 600; cursor: pointer;
         }
 
-        /* Candle Mode Toggle */
-        .mode-btn { position: fixed; top: 20px; right: 20px; background: none; border: none; font-size: 1.5rem; z-index: 100; }
-        body.dark { background-color: #0a0a0a; color: var(--gold); }
-        body.dark .container { background: #111; border-color: var(--gold); }
+        .mode-btn { position: fixed; top: 20px; right: 20px; background: none; border: none; font-size: 1.5rem; z-index: 100; cursor: pointer; }
+        body.dark { background-color: #0d0d0d; color: var(--gold); }
+        body.dark .container { background: #1a1a1a; border-color: var(--gold); }
         body.dark input { border-bottom-color: var(--gold); color: white; }
     </style>
 </head>
@@ -97,9 +97,9 @@
     <div class="bg-texture"></div>
     <button class="mode-btn" onclick="document.getElementById('body').classList.toggle('dark')">🕯️</button>
 
-    <div class="flower" style="top: 5%; left: 10%;">🌸</div>
-    <div class="flower" style="bottom: 10%; right: 10%; animation-delay: -2s;">🌸</div>
-    <div class="flower" style="top: 40%; right: -5%; opacity: 0.1;">🌸</div>
+    <div class="flower" style="top: 5%; left: -20px; width: 120px; height: 120px;"></div>
+    <div class="flower" style="bottom: 5%; right: -20px; animation-delay: -3s;"></div>
+    <div class="flower" style="top: 45%; right: 10%; width: 60px; height: 60px; opacity: 0.4; animation-delay: -6s;"></div>
 
     <div class="container">
         <div id="lock-screen">
@@ -114,7 +114,7 @@
             </div>
 
             <input type="password" id="pass" placeholder="••••" inputmode="numeric" maxlength="4">
-            <p style="font-size: 0.4rem; opacity: 0.4; letter-spacing: 1px; margin-top: 10px;">ENTER OUR SECRET START DATE</p>
+            <p style="font-size: 0.4rem; opacity: 0.4; letter-spacing: 1px; margin-top: 15px;">A PRIVATE MEMORY UNLOCKS THE VAULT</p>
         </div>
 
         <div id="secret-area">
@@ -132,21 +132,17 @@
     <script>
         const CODE = "1809";
 
-        // Fixed Countdown Logic
         function updateTimer() {
             const now = new Date();
-            let target = new Date(now.getFullYear(), 1, 1); // Feb 1
+            let target = new Date(now.getFullYear(), 1, 1);
             if (now > target) target.setFullYear(now.getFullYear() + 1);
-            
             const diff = target - now;
-            
             document.getElementById('d').innerText = Math.floor(diff / 86400000);
             document.getElementById('h').innerText = Math.floor((diff / 3600000) % 24);
             document.getElementById('m').innerText = Math.floor((diff / 60000) % 60);
             document.getElementById('s').innerText = Math.floor((diff / 1000) % 60);
         }
 
-        // Passcode Listener
         document.getElementById('pass').addEventListener('input', function(e) {
             if (this.value === CODE) {
                 document.getElementById('lock-screen').style.display = 'none';
@@ -157,7 +153,25 @@
         });
 
         function celebrate() {
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#af944d', '#000', '#fff'] });
+            // Releasing 💋 emojis via confetti
+            const scalar = 2;
+            const kiss = confetti.shapeFromText({ text: '💋', scalar });
+
+            confetti({
+                shapes: [kiss],
+                particleCount: 40,
+                spread: 70,
+                origin: { y: 0.6 },
+                scalar
+            });
+            
+            // Adding gold sparkles for that luxury feel
+            confetti({
+                particleCount: 100,
+                spread: 160,
+                colors: ['#af944d', '#ffffff'],
+                origin: { y: 0.6 }
+            });
         }
 
         setInterval(updateTimer, 1000);
