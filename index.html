@@ -47,7 +47,6 @@
             50% { transform: translateY(-10px) rotate(1deg); }
         }
 
-        /* --- Floating Elements --- */
         .floating-heart {
             position: fixed; z-index: 1; pointer-events: none;
             animation: floatHeart linear infinite;
@@ -69,7 +68,6 @@
         @keyframes driftHarsh { 0% { transform: translate(-120%, 0); } 100% { transform: translate(120vw, 0); } }
         @keyframes driftLove { 0% { transform: translateY(110vh) scale(0.8); } 100% { transform: translateY(-20vh) scale(1.1); } }
 
-        /* --- Plumeria Flowers --- */
         .flower-container { position: absolute; width: 80px; height: 80px; z-index: 2; pointer-events: none; }
         .flower-inner { position: relative; width: 100%; height: 100%; animation: rotateFlower 20s infinite linear; }
         .petal {
@@ -84,7 +82,6 @@
         .p5 { transform: translate(-50%, -100%) rotate(288deg); }
         @keyframes rotateFlower { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* --- UI Components --- */
         h1 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--hot-pink); margin: 0; }
         .timer {
             display: flex; justify-content: space-around;
@@ -159,7 +156,7 @@
     <script>
         const CODE = "1809";
         const MY_PHONE = "23057518031"; 
-        const BIRTHDAY_MSG = `"Joyeux anniversaire mon amour!!! <br><br> Je t'aime trop fort mon bébé. Ce site est un petit cadeau de ton <strong>petit chou</strong>. <br><br> Hoping to see you become a model one day. <br> Tche mari zolie ma chérie d'amour gâtée 🌹"`;
+        const BIRTHDAY_MSG = `Joyeux anniversaire mon amour ❤️<br><br>Je t'aime fort ma chérie gâtée 💓<br>Le site c un cado de ma part.<br><br>Je voulais te dire que non seulement tche model pretty mais aussi you have a great personality pcq avec toi jme sens libre. <br><br>Hoping to see ma reine devenir une modèle. Ton side profile, ton nez, tes yeux et ton facecard harmonieux sont les preuves de ta beauté heavenly. <br><br><strong>Harsh loves you. H t'aime. I love you ma vie <3</strong>`;
 
         function spawnHearts() {
             setInterval(() => {
