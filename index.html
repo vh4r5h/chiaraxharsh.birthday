@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>CHIARA | L'ÉTERNEL</title>
+    <title>CHIARA | EXCLUSIVE</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@100;300;600&display=swap');
@@ -17,11 +17,12 @@
         body { 
             margin: 0; padding: 0; background: var(--vogue-white); 
             font-family: 'Montserrat', sans-serif; color: var(--deep-black);
-            min-height: 100vh; overflow: hidden;
+            min-height: 100vh; width: 100vw; overflow-x: hidden;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: background 1.5s ease;
         }
 
-        /* High-End Grain & Ambient Background */
+        /* Ambient Grain Overlay */
         body::before {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://grains.amie.so/grain.png'); opacity: 0.05;
@@ -30,86 +31,94 @@
 
         .bg-glow {
             position: fixed; width: 100vw; height: 100vh; z-index: -1;
-            background: radial-gradient(circle at 10% 10%, rgba(197, 160, 89, 0.1) 0%, transparent 40%),
-                        radial-gradient(circle at 90% 90%, rgba(197, 160, 89, 0.05) 0%, transparent 40%);
+            background: radial-gradient(circle at 15% 15%, rgba(197, 160, 89, 0.12) 0%, transparent 45%),
+                        radial-gradient(circle at 85% 85%, rgba(197, 160, 89, 0.08) 0%, transparent 45%);
         }
 
         .glass-container {
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.65);
             backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-            border: 0.5px solid rgba(0,0,0,0.08);
-            padding: 50px 30px; width: 85%; max-width: 340px;
+            border: 0.5px solid rgba(0,0,0,0.1);
+            padding: 40px 20px; width: 85%; max-width: 340px;
             text-align: center; position: relative; z-index: 10;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.03);
-            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.05);
+            border-radius: 2px;
         }
 
         h1 { 
-            font-family: 'Bodoni Moda', serif; font-size: 3.2rem; font-weight: 400;
-            letter-spacing: 10px; margin: 0; text-transform: uppercase;
+            font-family: 'Bodoni Moda', serif; font-size: clamp(2.5rem, 10vw, 3.2rem); 
+            font-weight: 400; letter-spacing: 10px; margin: 0; text-transform: uppercase;
             background: linear-gradient(to right, #000, var(--gold), #000);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: breathe 4s infinite alternate;
         }
 
-        @keyframes breathe { from { opacity: 0.8; letter-spacing: 8px; } to { opacity: 1; letter-spacing: 12px; } }
+        .subtitle { font-size: 0.5rem; letter-spacing: 4px; opacity: 0.4; margin-top: 8px; text-transform: uppercase; }
 
         .timer-row {
-            display: flex; justify-content: space-between; margin: 40px 0;
-            padding: 15px 0; border-top: 0.5px solid rgba(0,0,0,0.1); border-bottom: 0.5px solid rgba(0,0,0,0.1);
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+            margin: 35px 0; padding: 15px 0;
+            border-top: 0.5px solid rgba(0,0,0,0.1); border-bottom: 0.5px solid rgba(0,0,0,0.1);
         }
-        .t-box { flex: 1; }
         .t-num { font-family: 'Bodoni Moda', serif; font-size: 1.3rem; display: block; color: var(--gold); }
-        .t-lab { font-size: 0.45rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; }
+        .t-lab { font-size: 0.4rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.6; }
 
         .lock-zone input {
-            background: transparent; border: none; border-bottom: 1px solid #000;
-            width: 100px; text-align: center; font-size: 1.8rem; letter-spacing: 6px;
-            font-family: 'Bodoni Moda', serif; outline: none; padding: 10px;
+            background: transparent; border: none; border-bottom: 1px solid rgba(0,0,0,0.3);
+            width: 110px; text-align: center; font-size: 1.8rem; letter-spacing: 6px;
+            font-family: 'Bodoni Moda', serif; outline: none; padding: 5px; color: inherit;
+            border-radius: 0; -webkit-appearance: none;
         }
 
-        /* --- THE WOW REVEAL --- */
-        #secret-area { display: none; opacity: 0; transform: translateY(20px); transition: all 2s ease; }
-        
+        /* Reliable Reveal Logic */
+        #secret-area { display: none; opacity: 0; transform: translateY(15px); transition: all 1s ease; }
+        #secret-area.active { display: block !important; opacity: 1; transform: translateY(0); }
+
         .message-body {
-            font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 1.2rem;
-            line-height: 1.9; color: #333; margin-bottom: 30px;
+            font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 1.15rem;
+            line-height: 1.7; color: #1a1a1a; margin-bottom: 25px; text-align: left;
         }
 
-        .candle-btn {
+        .btn-gold {
+            background: var(--gold); color: white; border: none; 
+            padding: 16px; font-size: 0.6rem; letter-spacing: 3px; 
+            text-transform: uppercase; width: 100%; cursor: pointer;
+            font-weight: 600;
+        }
+
+        .candle-toggle {
             position: fixed; top: 30px; right: 20px; background: none; border: none;
-            font-size: 1.3rem; z-index: 200; cursor: pointer;
+            font-size: 1.2rem; z-index: 500; cursor: pointer; padding: 10px;
         }
 
-        body.candle-mode { background: #080808; }
-        body.candle-mode .glass-container { background: rgba(10, 10, 10, 0.9); border-color: var(--gold); color: var(--gold); }
-        body.candle-mode .lock-zone input { border-bottom-color: var(--gold); color: var(--gold); }
+        body.candle-mode { background: #050505; }
+        body.candle-mode .glass-container { background: rgba(15, 15, 15, 0.9); border-color: var(--gold); color: var(--gold); }
         body.candle-mode .message-body { color: var(--gold); }
+        body.candle-mode input { border-bottom-color: var(--gold); color: var(--gold); }
 
-        footer { position: absolute; bottom: 20px; font-size: 0.5rem; letter-spacing: 4px; opacity: 0.3; text-transform: uppercase; }
+        footer { position: absolute; bottom: 20px; font-size: 0.45rem; letter-spacing: 3px; opacity: 0.3; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
-    <button class="candle-btn" onclick="document.body.classList.toggle('candle-mode')">🕯️</button>
+    <button class="candle-toggle" onclick="document.body.classList.toggle('candle-mode')" aria-label="Toggle Candle Mode">🕯️</button>
     <div class="bg-glow"></div>
 
-    <div class="glass-container" id="main-card">
+    <div class="glass-container">
         
         <div id="countdown-view">
             <h1>Chiara</h1>
-            <div style="font-size: 0.5rem; letter-spacing: 4px; opacity: 0.4; margin-top: 10px;">FEBRUARY FIRST ARCHIVE</div>
+            <div class="subtitle">Collection Privée • 01.02</div>
             
             <div class="timer-row">
-                <div class="t-box"><span id="d" class="t-num">00</span><span class="t-lab">Days</span></div>
-                <div class="t-box"><span id="h" class="t-num">00</span><span class="t-lab">Hrs</span></div>
-                <div class="t-box"><span id="m" class="t-num">00</span><span class="t-lab">Min</span></div>
-                <div class="t-box"><span id="s" class="t-num">00</span><span class="t-lab">Sec</span></div>
+                <div class="t-box"><span id="days" class="t-num">00</span><span class="t-lab">Days</span></div>
+                <div class="t-box"><span id="hours" class="t-num">00</span><span class="t-lab">Hrs</span></div>
+                <div class="t-box"><span id="mins" class="t-num">00</span><span class="t-lab">Min</span></div>
+                <div class="t-box"><span id="secs" class="t-num">00</span><span class="t-lab">Sec</span></div>
             </div>
 
             <div class="lock-zone">
                 <input type="password" id="passInput" placeholder="••••" inputmode="numeric" maxlength="4">
-                <p style="font-size: 0.4rem; letter-spacing: 2px; margin-top: 15px; opacity: 0.5;">ENTER 1809</p>
+                <p style="font-size: 0.4rem; letter-spacing: 2px; margin-top: 15px; opacity: 0.4;">UNLOCKED BY A SHARED MEMORY</p>
             </div>
         </div>
 
@@ -120,66 +129,77 @@
                 Hoping to see you become a model one day. <br>
                 Tche mari zolie ma chérie d'amour gâtée"
             </div>
-            <button onclick="rainKisses()" style="background:var(--gold); color:white; border:none; padding: 15px 30px; font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase;">With Love, Harsh 💋</button>
+            <button onclick="celebrate()" class="btn-gold">Receive Your Kisses 💋</button>
         </div>
 
     </div>
 
-    <footer>EST. 2009 — HARSH x CHIARA</footer>
+    <footer>Archive Éternelle — Harsh & Chiara</footer>
 
     <script>
-        const PASSCODE = "1809";
+        const THE_SECRET = "1809";
 
-        // Perpetual Timer for Feb 1st
-        function runTimer() {
+        function updateCountdown() {
             const now = new Date();
-            let bday = new Date(now.getFullYear(), 1, 1); // Feb 1
-            if (now > bday) bday.setFullYear(now.getFullYear() + 1);
+            // Month 1 is February
+            let bday = new Date(now.getFullYear(), 1, 1, 0, 0, 0);
+
+            if (now > bday) {
+                bday = new Date(now.getFullYear() + 1, 1, 1, 0, 0, 0);
+            }
 
             const diff = bday - now;
-            document.getElementById('d').innerText = String(Math.floor(diff / 86400000)).padStart(2, '0');
-            document.getElementById('h').innerText = String(Math.floor((diff / 3600000) % 24)).padStart(2, '0');
-            document.getElementById('m').innerText = String(Math.floor((diff / 60000) % 60)).padStart(2, '0');
-            document.getElementById('s').innerText = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+            
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor((diff % 86400000) / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+
+            document.getElementById('days').textContent = String(d).padStart(2, '0');
+            document.getElementById('hours').textContent = String(h).padStart(2, '0');
+            document.getElementById('mins').textContent = String(m).padStart(2, '0');
+            document.getElementById('secs').textContent = String(s).padStart(2, '0');
         }
 
-        // Auto-unlock
-        document.getElementById('passInput').addEventListener('input', (e) => {
-            if (e.target.value === PASSCODE) {
+        document.getElementById('passInput').addEventListener('input', function(e) {
+            if (this.value === THE_SECRET) {
                 const cv = document.getElementById('countdown-view');
                 const sa = document.getElementById('secret-area');
-                cv.style.opacity = '0';
-                setTimeout(() => {
-                    cv.style.display = 'none';
-                    sa.style.display = 'block';
-                    setTimeout(() => { 
-                        sa.style.opacity = '1'; 
-                        sa.style.transform = 'translateY(0)';
-                        rainKisses();
-                    }, 50);
-                }, 800);
+                
+                cv.style.display = 'none';
+                sa.classList.add('active');
+                celebrate();
+                // Ensure keyboard closes on mobile
+                this.blur();
+            } else if (this.value.length === 4) {
+                this.value = '';
+                // Simple vibrate-style animation for wrong code
+                this.parentElement.animate([
+                    { transform: 'translateX(-5px)' },
+                    { transform: 'translateX(5px)' },
+                    { transform: 'translateX(0)' }
+                ], { duration: 200 });
             }
         });
 
-        function rainKisses() {
-            confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#c5a059', '#000000', '#ff69b4'] });
+        function celebrate() {
+            const colors = ['#c5a059', '#000000', '#ff69b4', '#ffffff'];
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: colors });
         }
 
-        setInterval(runTimer, 1000);
-        runTimer();
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
 
-        // Elegant Touch Trail
-        document.addEventListener('touchmove', (e) => {
+        // Cross-platform touch trail
+        const handleTouch = (e) => {
+            const t = e.touches ? e.touches[0] : e;
             const s = document.createElement('div');
             s.innerHTML = '✧';
-            s.style.position = 'absolute';
-            s.style.color = 'var(--gold)';
-            s.style.left = e.touches[0].pageX + 'px';
-            s.style.top = e.touches[0].pageY + 'px';
-            s.style.pointerEvents = 'none';
+            s.style.cssText = `position:absolute; color:var(--gold); left:${t.pageX}px; top:${t.pageY}px; pointer-events:none; z-index:1000;`;
             document.body.appendChild(s);
             s.animate([{opacity: 1}, {opacity: 0, transform: 'translateY(-20px)'}], 1000).onfinish = () => s.remove();
-        });
+        };
+        document.addEventListener('touchstart', handleTouch);
     </script>
 </body>
 </html>
