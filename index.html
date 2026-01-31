@@ -2,95 +2,180 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CHIARA | L'ÉTERNEL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>CHIARA | MA FILLE D'AMOUR</title>
+    
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,700;1,400&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,700;1,400&family=Montserrat:wght@300;600&display=swap');
-
-        :root { --gold: #af944d; --black: #1a1a1a; --white: #ffffff; }
-        
-        body { 
-            margin: 0; padding: 0; 
-            /* Changed to soft champagne gradient for flower visibility */
-            background: linear-gradient(135deg, #f2f2f2 0%, #e0e0e0 100%); 
-            font-family: 'Montserrat', sans-serif; color: var(--black);
-            min-height: 100vh; width: 100%; overflow: hidden;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 2s ease;
+        :root {
+            --love-red: #d62828;
+            --gold: #af944d;
+            --soft-pink: #ffb6c1;
+            --glass: rgba(255, 255, 255, 0.75);
+            --apple-blur: blur(15px);
         }
 
-        /* 5-Petal Plumeria with better visibility */
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            /* Dynamic height for iPhone Safari */
+            min-height: 100svh;
+            width: 100%;
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe4e1 100%);
+            font-family: 'Montserrat', sans-serif;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: background 2s ease;
+        }
+
+        /* --- Background Elements --- */
+        .flower, .bg-heart {
+            position: absolute; pointer-events: none; z-index: 1;
+        }
+
         .flower {
-            position: absolute; width: 130px; height: 130px;
+            width: 120px; height: 120px;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 500'%3E%3Cg fill='white' stroke='%23dcdcdc' stroke-width='1'%3E%3Cpath d='M250,250 C220,180 150,150 120,200 C90,250 150,320 250,250 Z'/%3E%3Cpath d='M250,250 C180,220 150,290 200,380 C250,470 320,350 250,250 Z'/%3E%3Cpath d='M250,250 C220,320 290,450 380,400 C470,350 350,280 250,250 Z'/%3E%3Cpath d='M250,250 C320,280 450,210 400,120 C350,30 280,150 250,250 Z'/%3E%3Cpath d='M250,250 C320,180 350,50 260,40 C170,30 210,150 250,250 Z'/%3E%3C/g%3E%3Ccircle cx='250' cy='250' r='60' fill='%23fff3a3' opacity='0.8' filter='blur(15px)'/%3E%3C/svg%3E");
-            background-size: contain; z-index: 1; pointer-events: none;
-            /* Added drop shadow so white petals pop on white background */
-            filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.15));
-            animation: float 20s infinite ease-in-out;
+            background-size: contain;
+            filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.1));
+            animation: float 18s infinite ease-in-out;
         }
 
-        @keyframes float { 0%, 100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(25px, 35px) rotate(20deg); } }
+        .bg-heart {
+            width: 30px; height: 30px; opacity: 0.3;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d62828'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+            background-size: contain;
+            animation: rise 22s infinite linear;
+        }
 
+        @keyframes float { 0%, 100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(20px, 40px) rotate(15deg); } }
+        @keyframes rise { 0% { transform: translateY(110vh) rotate(0deg); } 100% { transform: translateY(-20vh) rotate(360deg); } }
+
+        /* --- Main Container --- */
         .container {
-            position: relative; z-index: 10; background: rgba(255, 255, 255, 0.98);
-            border: 1px solid var(--black); width: 85%; max-width: 340px;
-            padding: 40px 20px; box-shadow: 25px 25px 50px rgba(0,0,0,0.1); text-align: center;
-            transition: all 2s ease;
+            position: relative; z-index: 10;
+            width: 88%; max-width: 350px;
+            padding: 50px 30px;
+            background: var(--glass);
+            backdrop-filter: var(--apple-blur);
+            -webkit-backdrop-filter: var(--apple-blur);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 35px;
+            box-shadow: 0 25px 50px -12px rgba(214, 40, 40, 0.15);
+            text-align: center;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        h1 { font-family: 'Bodoni Moda', serif; font-size: 2.8rem; letter-spacing: 8px; margin: 0; text-transform: uppercase; border-bottom: 2px solid var(--gold); display: inline-block; padding-bottom: 5px; }
-        .date-sub { font-size: 0.6rem; letter-spacing: 4px; margin-top: 15px; opacity: 0.6; text-transform: uppercase; }
+        h1 {
+            font-family: 'Bodoni Moda', serif; font-size: 3rem;
+            margin: 0; letter-spacing: 5px; text-transform: uppercase;
+            color: var(--love-red);
+        }
 
-        .timer { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin: 30px 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 15px 0; }
-        .t-n { font-family: 'Bodoni Moda', serif; font-size: 1.2rem; color: var(--gold); font-weight: bold; }
-        .t-l { font-size: 0.4rem; text-transform: uppercase; letter-spacing: 1px; }
+        .date-sub {
+            font-size: 0.65rem; letter-spacing: 4px; color: var(--gold);
+            margin-bottom: 25px; font-weight: 600; text-transform: uppercase;
+        }
 
-        #secret-area { display: none; text-align: left; }
-        .message { font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 1.1rem; line-height: 1.6; }
-        .sig { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 20px; border-left: 2px solid var(--gold); padding-left: 10px; font-weight: 600; }
+        /* --- Timer Section --- */
+        .timer {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 10px; margin: 25px 0;
+            padding: 15px 0; border-top: 1px solid rgba(0,0,0,0.05); border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .t-n { font-family: 'Bodoni Moda', serif; font-size: 1.4rem; color: var(--love-red); display: block; }
+        .t-l { font-size: 0.5rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.6; }
 
-        input { background: transparent; border: none; border-bottom: 2px solid var(--black); width: 100px; text-align: center; font-size: 1.5rem; letter-spacing: 5px; outline: none; font-family: 'Bodoni Moda', serif; }
-        .btn { background: var(--black); color: white; border: none; width: 100%; padding: 18px; margin-top: 25px; font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; cursor: pointer; border-radius: 0; }
+        /* --- Input Area --- */
+        input {
+            background: rgba(255,255,255,0.5); border: none;
+            border-bottom: 2px solid var(--soft-pink);
+            width: 120px; padding: 10px; text-align: center;
+            font-size: 1.8rem; letter-spacing: 10px; font-family: 'Bodoni Moda', serif;
+            outline: none; color: var(--love-red); border-radius: 10px 10px 0 0;
+        }
+        input:focus { border-bottom-color: var(--love-red); }
 
-        /* MIDNIGHT WOW OVERLAY */
+        .vault-label { font-size: 0.45rem; letter-spacing: 2px; margin-top: 15px; opacity: 0.5; color: var(--love-red); text-transform: uppercase; }
+
+        /* --- Message Area --- */
+        #secret-area { display: none; text-align: left; animation: fadeIn 1.5s ease; }
+        .message { font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 1.15rem; line-height: 1.7; color: #333; }
+        .message strong { color: var(--love-red); }
+        .sig { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 25px; border-left: 3px solid var(--love-red); padding-left: 15px; font-weight: 600; color: var(--love-red); }
+
+        /* --- Buttons --- */
+        .btn {
+            background: linear-gradient(135deg, var(--love-red), #a31d1d);
+            color: white; border: none; width: 100%; padding: 20px;
+            margin-top: 30px; font-size: 0.75rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 3px;
+            border-radius: 50px; cursor: pointer;
+            box-shadow: 0 10px 20px rgba(214, 40, 40, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn:active { transform: scale(0.96); opacity: 0.9; }
+
+        /* --- Shake Effect for Wrong Code --- */
+        .shake { animation: shake 0.4s ease-in-out; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- Midnight Overlay --- */
         #midnight-curtain {
-            position: fixed; top:0; left:0; width:100vw; height:100vh;
-            background: linear-gradient(135deg, #000 0%, #af944d 100%);
-            z-index: 999; display: none; align-items: center; justify-content: center; flex-direction: column;
-            opacity: 0; transition: opacity 2s ease;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, #2b0404 0%, #000 100%);
+            z-index: 9999; display: none; align-items: center; justify-content: center;
+            flex-direction: column; opacity: 0; transition: opacity 2s ease;
         }
-        #midnight-curtain h2 { color: var(--gold); font-family: 'Bodoni Moda'; letter-spacing: 5px; font-size: 1.5rem; text-transform: uppercase; text-align: center; }
+        #midnight-curtain h2 { color: var(--gold); font-family: 'Bodoni Moda'; letter-spacing: 4px; text-transform: uppercase; }
 
-        /* Dark Mode for Midnight */
-        body.dark-mode { background: #080808; }
-        body.dark-mode .container { background: #111; border-color: var(--gold); color: var(--gold); }
-        body.dark-mode input { border-bottom-color: var(--gold); color: var(--gold); }
+        /* --- Dark Mode Switch --- */
+        body.dark-mode { background: #0a0a0a; }
+        body.dark-mode .container { background: rgba(20, 20, 20, 0.85); border-color: var(--gold); }
+        body.dark-mode h1, body.dark-mode .t-n, body.dark-mode .date-sub, body.dark-mode .sig { color: var(--gold); }
+        body.dark-mode .message { color: #eee; }
     </style>
 </head>
-<body id="body">
+<body>
 
     <div id="midnight-curtain">
-        <h2>The Wait Is Over.</h2>
-        <h2 style="font-size: 1rem; margin-top: 20px;">Happy Birthday Chiara</h2>
+        <h2>The Wait Is Over</h2>
+        <h2 style="font-size: 0.8rem; margin-top: 15px; opacity: 0.8;">Happy Birthday Chiara</h2>
     </div>
 
-    <div class="flower" style="top: 5%; left: 0px;"></div>
-    <div class="flower" style="bottom: 10%; right: -20px; animation-delay: -5s; width: 100px;"></div>
-    <div class="flower" style="top: 45%; right: 10%; width: 70px; opacity: 0.5; animation-delay: -8s;"></div>
+    <div class="flower" style="top: 2%; left: -30px;"></div>
+    <div class="flower" style="bottom: 5%; right: -30px; animation-delay: -5s;"></div>
+    <div class="bg-heart" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="bg-heart" style="left: 30%; animation-delay: -7s;"></div>
+    <div class="bg-heart" style="left: 70%; animation-delay: -15s;"></div>
+    <div class="bg-heart" style="left: 90%; animation-delay: -4s;"></div>
 
-    <div class="container">
+    <div class="container" id="main-box">
         <div id="lock-screen">
-            <h1>Chiara</h1>
+            <h1 id="bday-title">Chiara</h1>
             <div class="date-sub" id="date-label">01 . 02 . 2009</div>
+            
             <div class="timer">
-                <div><span id="d" class="t-n">00</span><br><span class="t-l">Days</span></div>
-                <div><span id="h" class="t-n">00</span><br><span class="t-l">Hrs</span></div>
-                <div><span id="m" class="t-n">00</span><br><span class="t-l">Min</span></div>
-                <div><span id="s" class="t-n">00</span><br><span class="t-l">Sec</span></div>
+                <div><span id="d" class="t-n">00</span><span class="t-l">Days</span></div>
+                <div><span id="h" class="t-n">00</span><span class="t-l">Hrs</span></div>
+                <div><span id="m" class="t-n">00</span><span class="t-l">Min</span></div>
+                <div><span id="s" class="t-n">00</span><span class="t-l">Sec</span></div>
             </div>
+
             <input type="password" id="pass" placeholder="••••" inputmode="numeric" maxlength="4">
-            <p style="font-size: 0.4rem; opacity: 0.4; letter-spacing: 1px; margin-top: 15px;">A PRIVATE MEMORY UNLOCKS THE VAULT</p>
+            <p class="vault-label">Enter the secret key to unlock</p>
         </div>
 
         <div id="secret-area">
@@ -109,97 +194,98 @@
         const CODE = "1809";
         let midnightTriggered = false;
 
-        function update() {
+        function updateCountdown() {
             const now = new Date();
-            // Check if Feb 1st
+            // Birthday: Feb 1st (Month index 1)
             const isBday = (now.getMonth() === 1 && now.getDate() >= 1);
-            
+
             if (isBday) {
                 if (!midnightTriggered) {
                     midnightTriggered = true;
                     triggerMidnight();
                 }
-                document.getElementById('d').innerText = "00";
-                document.getElementById('h').innerText = "00";
-                document.getElementById('m').innerText = "00";
-                document.getElementById('s').innerText = "00";
-                document.getElementById('date-label').innerText = "✨ BONNE ANNIVERSAIRE ✨";
+                document.getElementById('date-label').innerText = "✨ BON ANNIVERSAIRE ✨";
+                ['d','h','m','s'].forEach(id => document.getElementById(id).innerText = "00");
                 return;
             }
 
             let target = new Date(now.getFullYear(), 1, 1);
             if (now > target) target.setFullYear(now.getFullYear() + 1);
             const diff = target - now;
-            document.getElementById('d').innerText = Math.floor(diff / 86400000);
-            document.getElementById('h').innerText = Math.floor((diff / 3600000) % 24);
-            document.getElementById('m').innerText = Math.floor((diff / 60000) % 60);
-            document.getElementById('s').innerText = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('d').innerText = Math.floor(diff / 86400000).toString().padStart(2, '0');
+            document.getElementById('h').innerText = Math.floor((diff / 3600000) % 24).toString().padStart(2, '0');
+            document.getElementById('m').innerText = Math.floor((diff / 60000) % 60).toString().padStart(2, '0');
+            document.getElementById('s').innerText = Math.floor((diff / 1000) % 60).toString().padStart(2, '0');
         }
 
         function triggerMidnight() {
             const curtain = document.getElementById('midnight-curtain');
             curtain.style.display = 'flex';
-            setTimeout(() => { curtain.style.opacity = '1'; }, 50);
-            
-            // Gold Rain
-            var duration = 7 * 1000;
-            var end = Date.now() + duration;
+            setTimeout(() => curtain.style.opacity = '1', 50);
+
+            const end = Date.now() + (7 * 1000);
             (function frame() {
-              confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#af944d', '#ffffff'] });
-              confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#af944d', '#ffffff'] });
-              if (Date.now() < end) requestAnimationFrame(frame);
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#af944d', '#d62828'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#af944d', '#ffffff'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
             }());
 
             setTimeout(() => {
                 document.body.classList.add('dark-mode');
                 curtain.style.opacity = '0';
-                setTimeout(() => { curtain.style.display = 'none'; }, 2000);
+                setTimeout(() => curtain.style.display = 'none', 2000);
             }, 7000);
         }
 
         document.getElementById('pass').addEventListener('input', function() {
-            if (this.value === CODE) {
-                document.getElementById('lock-screen').style.display = 'none';
-                document.getElementById('secret-area').style.display = 'block';
-                this.blur();
-                finalCelebrate();
+            const box = document.getElementById('main-box');
+            if (this.value.length === 4) {
+                if (this.value === CODE) {
+                    document.getElementById('lock-screen').style.display = 'none';
+                    document.getElementById('secret-area').style.display = 'block';
+                    finalCelebrate();
+                } else {
+                    // iPhone-style error shake
+                    box.classList.add('shake');
+                    setTimeout(() => {
+                        box.classList.remove('shake');
+                        this.value = '';
+                    }, 400);
+                }
             }
         });
 
-        // FIXED KISS FUNCTION - ULTRA STABLE
         function finalCelebrate() {
-            // 1. Red & Pink Confetti
             confetti({
                 particleCount: 150,
                 spread: 70,
                 origin: { y: 0.6 },
-                colors: ['#ff0000', '#ff69b4', '#af944d']
+                colors: ['#d62828', '#ffb6c1', '#af944d']
             });
 
-            // 2. Animated Floating Emoji Kisses (Built-in)
-            for(let i=0; i<15; i++) {
+            for(let i=0; i<20; i++) {
                 setTimeout(() => {
                     const kiss = document.createElement('div');
                     kiss.innerHTML = '💋';
-                    kiss.style.position = 'fixed';
-                    kiss.style.left = Math.random() * 100 + 'vw';
-                    kiss.style.top = '100vh';
-                    kiss.style.fontSize = (Math.random() * 20 + 20) + 'px';
-                    kiss.style.zIndex = '1000';
-                    kiss.style.transition = 'all 3s ease-out';
+                    kiss.style.cssText = `
+                        position: fixed; left: ${Math.random() * 100}vw; top: 105vh;
+                        font-size: ${Math.random() * 20 + 20}px; z-index: 10000;
+                        transition: all 3.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+                        pointer-events: none;
+                    `;
                     document.body.appendChild(kiss);
-                    
                     setTimeout(() => {
-                        kiss.style.transform = `translateY(-120vh) rotate(${Math.random() * 360}deg)`;
+                        kiss.style.transform = `translateY(-130vh) rotate(${Math.random() * 360}deg)`;
                         kiss.style.opacity = '0';
                     }, 50);
-                    
-                    setTimeout(() => kiss.remove(), 3000);
+                    setTimeout(() => kiss.remove(), 4000);
                 }, i * 150);
             }
         }
 
-        setInterval(update, 1000); update();
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
     </script>
 </body>
 </html>
