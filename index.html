@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>POUR MON AMOUR | CHIARA</title>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Montserrat:wght@300;600&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
 
@@ -13,6 +13,7 @@
             --hot-pink: #ff4d6d;
             --soft-rose: #ff85a1;
             --baby-pink: #fbb1bd;
+            --sky-blue: #a2d2ff;
             --flower-white: #ffffff;
             --flower-center: #ffd700;
         }
@@ -20,153 +21,127 @@
         * { 
             box-sizing: border-box; 
             -webkit-tap-highlight-color: transparent; 
-            -webkit-touch-callout: none;
         }
 
         body {
             margin: 0; padding: 0; 
-            min-height: 100svh; /* Perfect for iPhone Safari */
+            min-height: 100svh;
             width: 100%;
-            background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
+            background: radial-gradient(circle, #fff0f3 0%, #ffccd5 100%);
             font-family: 'Montserrat', sans-serif;
             display: flex; align-items: center; justify-content: center;
             overflow: hidden;
             flex-direction: column;
         }
 
-        /* --- Lively Plumeria Flowers --- */
-        .flower-container {
-            position: absolute; width: 100px; height: 100px;
-            z-index: 2; pointer-events: none;
-            filter: drop-shadow(0 8px 15px rgba(0,0,0,0.1));
-            animation: drift 22s infinite ease-in-out;
+        /* --- Squishy Bubble Card --- */
+        .container {
+            position: relative; z-index: 20;
+            width: 92%; max-width: 380px;
+            max-height: 85vh; overflow-y: auto;
+            padding: 35px 25px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-radius: 50px;
+            box-shadow: 20px 20px 0px rgba(255, 77, 109, 0.1);
+            border: 4px solid var(--soft-rose);
+            text-align: center;
+            animation: floating 3s ease-in-out infinite;
         }
 
-        .flower-inner {
-            position: relative; width: 100%; height: 100%;
-            animation: rotateFlower 30s infinite linear;
+        @keyframes floating {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
         }
 
+        /* --- Floating Elements --- */
+        .floating-heart {
+            position: fixed; z-index: 1; pointer-events: none;
+            animation: floatHeart linear infinite;
+            filter: drop-shadow(0 5px 10px rgba(255, 77, 109, 0.2));
+        }
+        @keyframes floatHeart {
+            0% { transform: translateY(110vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-20vh) translateX(50px) rotate(360deg); opacity: 0; }
+        }
+
+        .floating-harsh, .floating-love {
+            position: fixed; font-family: 'Dancing Script', cursive;
+            padding: 8px 15px; border-radius: 25px; white-space: nowrap;
+            pointer-events: none; z-index: 5; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .floating-harsh { background: rgba(255, 255, 255, 0.8); color: var(--hot-pink); border: 2px solid var(--baby-pink); animation: driftHarsh 15s linear infinite; }
+        .floating-love { background: var(--hot-pink); color: white; border: 2px solid white; animation: driftLove 12s linear infinite; }
+
+        @keyframes driftHarsh {
+            0% { transform: translate(-120%, 0); }
+            100% { transform: translate(120vw, 0); }
+        }
+        @keyframes driftLove {
+            0% { transform: translateY(110vh) scale(0.8); }
+            100% { transform: translateY(-20vh) scale(1.1); }
+        }
+
+        /* --- Plumeria Flowers --- */
+        .flower-container { position: absolute; width: 80px; height: 80px; z-index: 2; pointer-events: none; }
+        .flower-inner { position: relative; width: 100%; height: 100%; animation: rotateFlower 20s infinite linear; }
         .petal {
-            position: absolute; top: 50%; left: 50%;
-            width: 45px; height: 60px;
+            position: absolute; top: 50%; left: 50%; width: 35px; height: 50px;
             background: radial-gradient(circle at bottom, var(--flower-center) 0%, var(--flower-white) 70%);
-            border-radius: 50% 50% 15% 15%;
-            transform-origin: bottom center;
+            border-radius: 50% 50% 15% 15%; transform-origin: bottom center;
         }
-
         .p1 { transform: translate(-50%, -100%) rotate(0deg); }
         .p2 { transform: translate(-50%, -100%) rotate(72deg); }
         .p3 { transform: translate(-50%, -100%) rotate(144deg); }
         .p4 { transform: translate(-50%, -100%) rotate(216deg); }
         .p5 { transform: translate(-50%, -100%) rotate(288deg); }
-
-        @keyframes drift {
-            0%, 100% { transform: translate(0,0) rotate(0deg); }
-            50% { transform: translate(60px, 80px) rotate(25deg); }
-        }
         @keyframes rotateFlower { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* Floating Background Hearts */
-        .bg-heart {
-            position: absolute; pointer-events: none; z-index: 1;
-            color: var(--soft-rose); opacity: 0.5;
-            animation: rise 15s infinite ease-in;
-        }
-        @keyframes rise {
-            0% { transform: translateY(110vh) scale(0.5) rotate(0deg); opacity: 0; }
-            50% { opacity: 0.6; }
-            100% { transform: translateY(-20vh) scale(1.2) rotate(360deg); opacity: 0; }
-        }
-
-        /* Petal Rain */
-        .falling-petal {
-            position: fixed; top: -10%;
-            z-index: 1; pointer-events: none;
-            font-size: 20px;
-            animation: fall linear forwards;
-        }
-        @keyframes fall {
-            to { transform: translateY(110vh) rotate(540deg); opacity: 0; }
-        }
-
-        /* Main Glass Card */
-        .container {
-            position: relative; z-index: 10;
-            width: 90%; max-width: 380px;
-            max-height: 85vh; overflow-y: auto;
-            padding: 30px 20px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 40px;
-            box-shadow: 0 20px 50px rgba(255, 77, 109, 0.25);
-            border: 2px solid rgba(255, 255, 255, 0.6);
-            text-align: center;
-        }
-
+        /* --- UI Components --- */
         h1 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: var(--hot-pink); margin: 0; }
-        .heart-pulse { font-size: 2rem; animation: beat 1.2s infinite; display: inline-block; }
-        @keyframes beat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.3); } }
-
-        .date-sub { font-family: 'Playfair Display', serif; font-style: italic; color: var(--soft-rose); letter-spacing: 2px; margin-bottom: 20px; }
-
+        .date-sub { font-family: 'Montserrat'; font-weight: 600; color: var(--soft-rose); letter-spacing: 1px; margin-bottom: 20px; }
+        
         .timer {
             display: flex; justify-content: space-around;
-            background: rgba(255, 77, 109, 0.05); border-radius: 25px;
-            padding: 20px 10px; margin: 25px 0;
-            border: 1.5px dashed var(--soft-rose);
+            background: #fff0f3; border: 2px dashed var(--soft-rose);
+            border-radius: 30px; padding: 20px 10px; margin: 15px 0;
         }
         .t-n { font-weight: 700; font-size: 1.3rem; color: var(--hot-pink); display: block; }
-        .t-l { font-size: 0.55rem; text-transform: uppercase; color: var(--soft-rose); }
+        .t-l { font-size: 0.6rem; text-transform: uppercase; color: var(--soft-rose); }
+
+        .love-bar-container { width: 100%; height: 12px; background: #eee; border-radius: 20px; margin: 20px 0; overflow: hidden; border: 2px solid #ddd; }
+        .love-bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #ff4d6d, #ff85a1, #ffd700); transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
         input#pass {
-            background: white; border: 2px solid var(--baby-pink);
-            border-radius: 18px; width: 140px; padding: 12px;
-            font-size: 1.5rem; text-align: center; color: var(--hot-pink);
-            outline: none; -webkit-appearance: none;
-        }
-
-        /* Message & Buttons */
-        #secret-area { display: none; }
-        .message { font-family: 'Playfair Display', serif; font-size: 1.15rem; line-height: 1.6; color: #333; text-align: left; min-height: 100px; }
-        .lovey-quote { font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: var(--hot-pink); opacity: 0; transition: 1s; }
-        
-        #reply-box { margin-top: 25px; opacity: 0; transition: 1.5s; display: none; }
-        textarea {
-            width: 100%; border: 1.5px solid var(--baby-pink);
-            border-radius: 15px; padding: 12px; font-size: 1rem;
-            resize: none; outline: none; background: white;
-            -webkit-appearance: none;
+            background: white; border: 3px solid var(--baby-pink);
+            border-radius: 20px; width: 130px; padding: 12px;
+            font-size: 1.5rem; text-align: center; color: var(--hot-pink); outline: none;
         }
 
         .btn {
-            background: linear-gradient(to right, var(--hot-pink), var(--soft-rose));
-            color: white; border: none; width: 100%; padding: 15px;
-            border-radius: 50px; font-weight: 700; margin-top: 10px;
-            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.4);
+            background: var(--hot-pink); color: white; border: none; width: 100%; padding: 18px;
+            border-radius: 30px; font-weight: 800; margin-top: 15px;
+            box-shadow: 0 6px 0px #c9184a; transition: all 0.1s; cursor: pointer;
         }
+        .btn:active { transform: translateY(4px); box-shadow: 0 2px 0px #c9184a; }
 
-        .tap-heart { position: fixed; pointer-events: none; z-index: 9999; animation: flyUp 1.2s ease-out forwards; }
-        @keyframes flyUp { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-120px) scale(2.5); } }
+        .sticker { position: fixed; pointer-events: none; z-index: 9999; animation: pop 0.8s ease-out forwards; }
+        @keyframes pop { 0% { transform: scale(0); opacity: 1; } 100% { transform: scale(1.5) translateY(-50px); opacity: 0; } }
 
-        .footer-credit { position: absolute; bottom: 10px; font-size: 0.5rem; color: var(--soft-rose); letter-spacing: 2px; }
+        #secret-area { display: none; }
+        .message { font-family: 'Playfair Display', serif; font-size: 1.1rem; line-height: 1.6; color: #333; text-align: left; }
     </style>
 </head>
 <body>
 
-    <script>
-        for(let i=0; i<10; i++) {
-            document.write(`<div class="bg-heart" style="left:${Math.random()*100}%; bottom:-10%; animation-delay:${Math.random()*15}s;">💖</div>`);
-        }
-    </script>
-
-    <div class="container">
+    <div class="container" id="main-card">
         <div id="lock-screen">
-            <div class="heart-pulse">❤️</div>
-            <h1 id="main-title">Chiara</h1>
-            <div class="date-sub">01 . 02 . 2009</div>
-            
+            <div style="font-size: 3rem;">💝</div>
+            <h1>Chiara</h1>
+            <div class="date-sub">✨ 01 . 02 . 2009 ✨</div>
+
             <div class="timer">
                 <div><span id="d" class="t-n">00</span><span class="t-l">Jours</span></div>
                 <div><span id="h" class="t-n">00</span><span class="t-l">Hrs</span></div>
@@ -174,48 +149,94 @@
                 <div><span id="s" class="t-n">00</span><span class="t-l">Sec</span></div>
             </div>
 
-            <input type="password" id="pass" placeholder="••••" inputmode="numeric" maxlength="4">
-            <p style="font-size: 0.7rem; color: var(--soft-rose); margin-top: 15px;">Tape notre code secret, mon cœur...</p>
+            <div class="love-bar-container"><div id="l-bar" class="love-bar-fill"></div></div>
+            <input type="password" id="pass" placeholder="CODE" inputmode="numeric" maxlength="4">
+            <p style="font-size: 0.8rem; color: var(--soft-rose); margin-top: 15px; font-weight: bold;">Devine le code, princesse ! 🎀</p>
         </div>
 
         <div id="secret-area">
             <div class="message" id="typewriter-text"></div>
-            <div class="lovey-quote" id="quote-reveal">"I love you Chiara"</div>
-            <p id="signature" style="font-family: 'Dancing Script'; color: var(--hot-pink); font-size: 1.5rem; opacity: 0; transition: 1s;">Ton Harsh qui t'aime</p>
-            
-            <div id="reply-box">
-                <textarea id="chiara-msg" rows="3" placeholder="Écris-moi un petit mot..."></textarea>
-                <button class="btn" onclick="sendToHarsh()">Envoyer à mon chou 💌</button>
-            </div>
+            <div class="lovey-quote" id="quote-reveal" style="opacity: 0; transition: 1s; font-family: 'Dancing Script'; font-size: 2rem; color: var(--hot-pink); margin-top: 15px;">"I love you Chiara"</div>
+            <p id="signature" style="font-family: 'Dancing Script'; color: var(--hot-pink); font-size: 1.8rem; opacity: 0; transition: 1s;">Ton Harsh 🧸</p>
 
-            <button class="btn" onclick="finalCelebrate()" id="bisous-btn" style="opacity: 0; transition: 1s; margin-top: 20px;">Mille Bisous 💋</button>
+            <div id="reply-box" style="display: none; transition: 1s;">
+                <textarea id="chiara-msg" style="width:100%; border-radius:15px; border:2px solid var(--baby-pink); padding:10px;" rows="3" placeholder="Écris à ton chou..."></textarea>
+                <button class="btn" onclick="sendToHarsh()">Envoyer Bisous 💌</button>
+            </div>
+            <button class="btn" onclick="finalCelebrate()" id="bisous-btn" style="opacity: 0; transition: 1s;">MEGA BISOUS 💋</button>
         </div>
     </div>
-
-    <div class="footer-credit">This website belongs to Chiara and Harsh</div>
 
     <script>
         const CODE = "1809";
         const MY_PHONE = "23057518031"; 
         const BIRTHDAY_MSG = `"Joyeux anniversaire mon amour!!! <br><br> Je t'aime trop fort mon bébé. Ce site est un petit cadeau de ton <strong>petit chou</strong>. <br><br> Hoping to see you become a model one day. <br> Tche mari zolie ma chérie d'amour gâtée 🌹"`;
 
-        document.addEventListener('touchstart', (e) => {
-            const h = document.createElement('div');
-            h.innerHTML = '💖';
-            h.className = 'tap-heart';
-            h.style.left = e.touches[0].clientX - 10 + 'px';
-            h.style.top = e.touches[0].clientY - 10 + 'px';
-            document.body.appendChild(h);
-            setTimeout(() => h.remove(), 1200);
+        // 1. Spawners
+        function spawnHearts() {
+            setInterval(() => {
+                const h = document.createElement('div');
+                h.className = `floating-heart ${['h-small', 'h-med', 'h-large'][Math.floor(Math.random()*3)]}`;
+                h.innerHTML = ['❤️', '💖', '💝', '💕'][Math.floor(Math.random()*4)];
+                h.style.left = Math.random() * 100 + 'vw';
+                const dur = Math.random() * 10 + 10;
+                h.style.animationDuration = dur + 's';
+                document.body.appendChild(h);
+                setTimeout(() => h.remove(), dur * 1000);
+            }, 800);
+        }
+
+        function spawnHarshAndLove() {
+            setInterval(() => {
+                const isLove = Math.random() > 0.5;
+                const div = document.createElement('div');
+                div.className = isLove ? 'floating-love' : 'floating-harsh';
+                div.innerHTML = isLove ? "I Love You ❤️" : ["Harsh 🧸", "Ton Harsh", "Harsh ✨"][Math.floor(Math.random()*3)];
+                div.style.left = Math.random() * 80 + 10 + 'vw';
+                div.style.top = Math.random() * 80 + 10 + 'vh';
+                document.body.appendChild(div);
+                setTimeout(() => div.remove(), 12000);
+            }, 4000);
+        }
+
+        function spawnPlumeria() {
+            for(let i=0; i<5; i++) {
+                const f = document.createElement('div');
+                f.className = 'flower-container';
+                f.style.left = Math.random() * 90 + 'vw';
+                f.style.top = Math.random() * 90 + 'vh';
+                f.innerHTML = `<div class="flower-inner"><div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div><div class="petal p4"></div><div class="petal p5"></div></div>`;
+                document.body.appendChild(f);
+            }
+        }
+
+        // 2. Logic
+        document.getElementById('pass').addEventListener('input', function() {
+            const progress = (this.value.length / 4) * 100;
+            document.getElementById('l-bar').style.width = progress + '%';
+
+            if (this.value === CODE) {
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+                document.getElementById('lock-screen').style.display = 'none';
+                document.getElementById('secret-area').style.display = 'block';
+                startTypewriter();
+                finalCelebrate();
+                // Love Blast
+                for(let i=0; i<10; i++) {
+                    setTimeout(() => {
+                        const s = document.createElement('div');
+                        s.className = 'sticker';
+                        s.innerHTML = "I LOVE YOU! 💖";
+                        s.style.left = Math.random()*80+10+'vw'; s.style.top = Math.random()*80+10+'vh';
+                        document.body.appendChild(s);
+                        setTimeout(() => s.remove(), 1000);
+                    }, i*100);
+                }
+            }
         });
 
         function updateCountdown() {
             const now = new Date();
-            const isBday = (now.getMonth() === 1 && now.getDate() === 1);
-            if (isBday) {
-                document.getElementById('main-title').innerText = "Bon Anniversaire !";
-                return true;
-            }
             let target = new Date(now.getFullYear(), 1, 1);
             if (now > target) target.setFullYear(now.getFullYear() + 1);
             const diff = target - now;
@@ -223,18 +244,7 @@
             document.getElementById('h').innerText = Math.floor((diff / 3600000) % 24).toString().padStart(2, '0');
             document.getElementById('m').innerText = Math.floor((diff / 60000) % 60).toString().padStart(2, '0');
             document.getElementById('s').innerText = Math.floor((diff / 1000) % 60).toString().padStart(2, '0');
-            return false;
         }
-
-        document.getElementById('pass').addEventListener('input', function() {
-            if (this.value === CODE) {
-                document.getElementById('lock-screen').style.display = 'none';
-                document.getElementById('secret-area').style.display = 'block';
-                startTypewriter();
-                startPetalRain();
-                finalCelebrate();
-            }
-        });
 
         function startTypewriter() {
             const container = document.getElementById('typewriter-text');
@@ -242,47 +252,47 @@
             function type() {
                 if (i <= BIRTHDAY_MSG.length) {
                     container.innerHTML = BIRTHDAY_MSG.substring(0, i);
-                    i++;
-                    setTimeout(type, 40);
+                    i++; setTimeout(type, 40);
                 } else {
                     document.getElementById('quote-reveal').style.opacity = "1";
                     document.getElementById('signature').style.opacity = "1";
                     document.getElementById('bisous-btn').style.opacity = "1";
                     const rb = document.getElementById('reply-box');
-                    rb.style.display = "block";
-                    setTimeout(() => rb.style.opacity = "1", 100);
+                    rb.style.display = "block"; setTimeout(() => rb.style.opacity = "1", 100);
                 }
             }
             type();
         }
 
+        function finalCelebrate() {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ff4d6d', '#ffffff', '#ffd700'] });
+            const bigLove = document.createElement('div');
+            bigLove.innerHTML = "I LOVE YOU CHIARA!";
+            bigLove.style.cssText = "position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); font-family:'Dancing Script'; font-size:2.5rem; color:#ff4d6d; text-shadow:2px 2px white; z-index:1000; animation:pop 1s forwards;";
+            document.body.appendChild(bigLove);
+            setTimeout(() => bigLove.remove(), 1500);
+        }
+
         function sendToHarsh() {
             const text = document.getElementById('chiara-msg').value;
-            if(!text) return;
-            finalCelebrate();
-            window.open(`https://wa.me/${MY_PHONE}?text=${encodeURIComponent("💌 Message de Chiara : " + text)}`, '_blank');
+            if(text) window.open(`https://wa.me/${MY_PHONE}?text=${encodeURIComponent("💌 Message de Chiara : " + text)}`, '_blank');
         }
 
-        function startPetalRain() {
-            const petals = ['🌸', '🌹', '❤️', '✨'];
-            setInterval(() => {
-                const p = document.createElement('div');
-                p.className = 'falling-petal';
-                p.innerHTML = petals[Math.floor(Math.random() * petals.length)];
-                p.style.left = Math.random() * 100 + 'vw';
-                p.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                document.body.appendChild(p);
-                setTimeout(() => p.remove(), 5000);
-            }, 400);
-        }
-
-        function finalCelebrate() {
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#ff4d6d', '#ffffff'] });
-        }
-
-        const isBday = updateCountdown();
-        if(isBday) setInterval(finalCelebrate, 8000);
+        // Init
+        spawnHearts();
+        spawnHarshAndLove();
+        spawnPlumeria();
         setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Touch Trail
+        document.addEventListener('touchstart', (e) => {
+            const t = document.createElement('div');
+            t.className = 'sticker'; t.innerHTML = '💖';
+            t.style.left = e.touches[0].clientX + 'px'; t.style.top = e.touches[0].clientY + 'px';
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 800);
+        });
     </script>
 </body>
 </html>
