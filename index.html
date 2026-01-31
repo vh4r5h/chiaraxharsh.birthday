@@ -1,250 +1,185 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chiara ✨</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>CHIARA | L'ÉTERNEL</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@100;300;600&display=swap');
 
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+        :root { 
+            --gold: #c5a059; 
+            --deep-black: #0a0a0a;
+            --vogue-white: #fcfcfc;
+        }
+        
+        body { 
+            margin: 0; padding: 0; background: var(--vogue-white); 
+            font-family: 'Montserrat', sans-serif; color: var(--deep-black);
+            min-height: 100vh; overflow: hidden;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Montserrat:wght@200;400&display=swap');
+        /* High-End Grain & Ambient Background */
+        body::before {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://grains.amie.so/grain.png'); opacity: 0.05;
+            pointer-events: none; z-index: 100;
+        }
 
-:root {
---black: #111;
---gold: #c9a44c;
---warm: #fff3c4;
-}
+        .bg-glow {
+            position: fixed; width: 100vw; height: 100vh; z-index: -1;
+            background: radial-gradient(circle at 10% 10%, rgba(197, 160, 89, 0.1) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 90%, rgba(197, 160, 89, 0.05) 0%, transparent 40%);
+        }
 
-body {
-margin:0;
-font-family:'Montserrat',sans-serif;
-background:#fff;
-color:#111;
-text-align:center;
-overflow-x:hidden;
-}
+        .glass-container {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border: 0.5px solid rgba(0,0,0,0.08);
+            padding: 50px 30px; width: 85%; max-width: 340px;
+            text-align: center; position: relative; z-index: 10;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.03);
+            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
 
-/* Romantic Candle Mode */
-body.candle {
-background:#0b0b0b;
-color:#f5e6b8;
-}
+        h1 { 
+            font-family: 'Bodoni Moda', serif; font-size: 3.2rem; font-weight: 400;
+            letter-spacing: 10px; margin: 0; text-transform: uppercase;
+            background: linear-gradient(to right, #000, var(--gold), #000);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: breathe 4s infinite alternate;
+        }
 
-/* Floating gold metals */
-.metal {
-position:fixed;
-bottom:-50px;
-font-size:18px;
-color:var(--gold);
-opacity:0.7;
-animation: floatUp 12s linear infinite;
-pointer-events:none;
-}
+        @keyframes breathe { from { opacity: 0.8; letter-spacing: 8px; } to { opacity: 1; letter-spacing: 12px; } }
 
-@keyframes floatUp {
-0% { transform:translateY(0) rotate(0deg); opacity:0; }
-10% { opacity:0.8; }
-100% { transform:translateY(-120vh) rotate(360deg); opacity:0; }
-}
+        .timer-row {
+            display: flex; justify-content: space-between; margin: 40px 0;
+            padding: 15px 0; border-top: 0.5px solid rgba(0,0,0,0.1); border-bottom: 0.5px solid rgba(0,0,0,0.1);
+        }
+        .t-box { flex: 1; }
+        .t-num { font-family: 'Bodoni Moda', serif; font-size: 1.3rem; display: block; color: var(--gold); }
+        .t-lab { font-size: 0.45rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; }
 
-/* Container */
-.container {
-margin:40px auto;
-padding:40px 20px;
-max-width:420px;
-border:1px solid #000;
-background:rgba(255,255,255,0.95);
-transition:all 1s ease;
-}
+        .lock-zone input {
+            background: transparent; border: none; border-bottom: 1px solid #000;
+            width: 100px; text-align: center; font-size: 1.8rem; letter-spacing: 6px;
+            font-family: 'Bodoni Moda', serif; outline: none; padding: 10px;
+        }
 
-body.candle .container {
-background:rgba(20,15,5,0.85);
-border-color:var(--gold);
-box-shadow:0 0 40px rgba(255,200,100,0.3);
-}
+        /* --- THE WOW REVEAL --- */
+        #secret-area { display: none; opacity: 0; transform: translateY(20px); transition: all 2s ease; }
+        
+        .message-body {
+            font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 1.2rem;
+            line-height: 1.9; color: #333; margin-bottom: 30px;
+        }
 
-h1 {
-font-family:'Bodoni Moda',serif;
-font-size:3rem;
-margin:0;
-}
+        .candle-btn {
+            position: fixed; top: 30px; right: 20px; background: none; border: none;
+            font-size: 1.3rem; z-index: 200; cursor: pointer;
+        }
 
-.made-by {
-font-style:italic;
-font-size:0.75rem;
-margin:10px 0 25px;
-letter-spacing:1px;
-}
+        body.candle-mode { background: #080808; }
+        body.candle-mode .glass-container { background: rgba(10, 10, 10, 0.9); border-color: var(--gold); color: var(--gold); }
+        body.candle-mode .lock-zone input { border-bottom-color: var(--gold); color: var(--gold); }
+        body.candle-mode .message-body { color: var(--gold); }
 
-/* Timer */
-.timer-box {
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:10px;
-margin:25px 0;
-}
-
-.number {
-font-family:'Bodoni Moda',serif;
-font-size:1.4rem;
-}
-
-.label {
-font-size:0.5rem;
-letter-spacing:2px;
-opacity:0.6;
-}
-
-/* Passcode */
-.pass-input {
-width:100%;
-padding:15px 0;
-font-size:1.5rem;
-text-align:center;
-border:none;
-border-bottom:1px solid #000;
-background:transparent;
-letter-spacing:12px;
-outline:none;
-color:inherit;
-}
-
-.btn {
-margin-top:15px;
-padding:18px;
-width:100%;
-background:#111;
-color:#fff;
-border:none;
-letter-spacing:3px;
-font-size:0.65rem;
-text-transform:uppercase;
-cursor:pointer;
-}
-
-body.candle .btn {
-background:var(--gold);
-color:#111;
-}
-
-/* Secret */
-#secret {
-display:none;
-animation:fade 2s ease;
-}
-
-@keyframes fade {
-from{opacity:0;transform:translateY(20px);}
-to{opacity:1;transform:none;}
-}
-
-/* Candle flame */
-.candle {
-width:12px;
-height:25px;
-background:radial-gradient(circle,#ffd27d 0%,#ff9f1c 60%,transparent 70%);
-margin:20px auto;
-border-radius:50%;
-animation:flicker 0.15s infinite alternate;
-display:none;
-}
-
-body.candle .candle { display:block; }
-
-@keyframes flicker {
-from { transform:scaleY(1); }
-to { transform:scaleY(0.85); }
-}
-
-footer {
-margin:40px 0;
-font-size:0.6rem;
-letter-spacing:2px;
-opacity:0.5;
-}
-</style>
+        footer { position: absolute; bottom: 20px; font-size: 0.5rem; letter-spacing: 4px; opacity: 0.3; text-transform: uppercase; }
+    </style>
 </head>
-
 <body>
 
-<div class="container" id="card">
-<h1>Chiara</h1>
-<div class="made-by">Made with love par ton petit chou</div>
+    <button class="candle-btn" onclick="document.body.classList.toggle('candle-mode')">🕯️</button>
+    <div class="bg-glow"></div>
 
-<p style="font-size:0.6rem;letter-spacing:2px;">
-Since 18·09 💫
-</p>
+    <div class="glass-container" id="main-card">
+        
+        <div id="countdown-view">
+            <h1>Chiara</h1>
+            <div style="font-size: 0.5rem; letter-spacing: 4px; opacity: 0.4; margin-top: 10px;">FEBRUARY FIRST ARCHIVE</div>
+            
+            <div class="timer-row">
+                <div class="t-box"><span id="d" class="t-num">00</span><span class="t-lab">Days</span></div>
+                <div class="t-box"><span id="h" class="t-num">00</span><span class="t-lab">Hrs</span></div>
+                <div class="t-box"><span id="m" class="t-num">00</span><span class="t-lab">Min</span></div>
+                <div class="t-box"><span id="s" class="t-num">00</span><span class="t-lab">Sec</span></div>
+            </div>
 
-<div class="timer-box">
-<div><span id="d" class="number">00</span><div class="label">Days</div></div>
-<div><span id="h" class="number">00</span><div class="label">Hrs</div></div>
-<div><span id="m" class="number">00</span><div class="label">Min</div></div>
-<div><span id="s" class="number">00</span><div class="label">Sec</div></div>
-</div>
+            <div class="lock-zone">
+                <input type="password" id="passInput" placeholder="••••" inputmode="numeric" maxlength="4">
+                <p style="font-size: 0.4rem; letter-spacing: 2px; margin-top: 15px; opacity: 0.5;">ENTER 1809</p>
+            </div>
+        </div>
 
-<input type="password" maxlength="4" id="pass" class="pass-input" placeholder="••••">
-<button class="btn" onclick="unlock()">Unlock</button>
+        <div id="secret-area">
+            <div class="message-body">
+                "Happy birthday mon amour!!! <br><br>
+                Je t'aime fort mon bébé. Ce site web est un petit cadeau de ton <strong>petit chou</strong>. <br><br>
+                Hoping to see you become a model one day. <br>
+                Tche mari zolie ma chérie d'amour gâtée"
+            </div>
+            <button onclick="rainKisses()" style="background:var(--gold); color:white; border:none; padding: 15px 30px; font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase;">With Love, Harsh 💋</button>
+        </div>
 
-<div id="secret">
-<div class="candle"></div>
-<p style="font-family:'Bodoni Moda',serif;font-size:1.2rem;font-style:italic;line-height:1.6;">
-“Happy birthday mon amour!!! Je t'aime fort mon bébé.  
-Ce site web est un petit cadeau de ton petit chou.  
-Hoping to see you become a model one day.  
-Tche mari zolie ma chérie d'amour gâtée.”
-</p>
+    </div>
 
-<button class="btn" onclick="toggleCandle()">Candle Mode 🕯️</button>
-</div>
-</div>
+    <footer>EST. 2009 — HARSH x CHIARA</footer>
 
-<footer>Pour toujours ✨</footer>
+    <script>
+        const PASSCODE = "1809";
 
-<script>
-const PASS="1809";
+        // Perpetual Timer for Feb 1st
+        function runTimer() {
+            const now = new Date();
+            let bday = new Date(now.getFullYear(), 1, 1); // Feb 1
+            if (now > bday) bday.setFullYear(now.getFullYear() + 1);
 
-/* Countdown since talking date */
-function update(){
-const start=new Date(new Date().getFullYear(),8,18);
-let diff=Date.now()-start;
-if(diff<0) diff=0;
-d.innerText=Math.floor(diff/86400000);
-h.innerText=Math.floor(diff/3600000)%24;
-m.innerText=Math.floor(diff/60000)%60;
-s.innerText=Math.floor(diff/1000)%60;
-}
-setInterval(update,1000); update();
+            const diff = bday - now;
+            document.getElementById('d').innerText = String(Math.floor(diff / 86400000)).padStart(2, '0');
+            document.getElementById('h').innerText = String(Math.floor((diff / 3600000) % 24)).padStart(2, '0');
+            document.getElementById('m').innerText = String(Math.floor((diff / 60000) % 60)).padStart(2, '0');
+            document.getElementById('s').innerText = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+        }
 
-function unlock(){
-if(pass.value===PASS){
-secret.style.display="block";
-confetti({particleCount:150,spread:80,colors:['#c9a44c','#fff','#ffb6c1']});
-goldRain();
-}else{
-pass.value="";
-alert("❤️");
-}
-}
+        // Auto-unlock
+        document.getElementById('passInput').addEventListener('input', (e) => {
+            if (e.target.value === PASSCODE) {
+                const cv = document.getElementById('countdown-view');
+                const sa = document.getElementById('secret-area');
+                cv.style.opacity = '0';
+                setTimeout(() => {
+                    cv.style.display = 'none';
+                    sa.style.display = 'block';
+                    setTimeout(() => { 
+                        sa.style.opacity = '1'; 
+                        sa.style.transform = 'translateY(0)';
+                        rainKisses();
+                    }, 50);
+                }, 800);
+            }
+        });
 
-/* Candle mode */
-function toggleCandle(){
-document.body.classList.toggle("candle");
-}
+        function rainKisses() {
+            confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#c5a059', '#000000', '#ff69b4'] });
+        }
 
-/* Floating gold metals */
-function goldRain(){
-setInterval(()=>{
-const m=document.createElement("div");
-m.className="metal";
-m.innerHTML=Math.random()>0.5?"💛":"✨";
-m.style.left=Math.random()*100+"vw";
-m.style.animationDuration=8+Math.random()*6+"s";
-document.body.appendChild(m);
-setTimeout(()=>m.remove(),14000);
-},500);
-}
-</script>
+        setInterval(runTimer, 1000);
+        runTimer();
 
+        // Elegant Touch Trail
+        document.addEventListener('touchmove', (e) => {
+            const s = document.createElement('div');
+            s.innerHTML = '✧';
+            s.style.position = 'absolute';
+            s.style.color = 'var(--gold)';
+            s.style.left = e.touches[0].pageX + 'px';
+            s.style.top = e.touches[0].pageY + 'px';
+            s.style.pointerEvents = 'none';
+            document.body.appendChild(s);
+            s.animate([{opacity: 1}, {opacity: 0, transform: 'translateY(-20px)'}], 1000).onfinish = () => s.remove();
+        });
+    </script>
 </body>
 </html>
