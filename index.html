@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pour Chiara, Mon Amour</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root { --accent: #d81b60; --soft-pink: #ffafbd; }
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+        
+        body {
+            margin: 0; padding: 0;
+            background: linear-gradient(to bottom, #ffafbd, #ffc3a0);
+            font-family: 'Georgia', serif;
+            color: #5d4037;
+            display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; overflow: hidden; text-align: center;
+            touch-action: none; /* Smooths sparkle trail on iPhone */
+        }
+
+        /* Sparkle Trail Effect */
+        .sparkle {
+            position: absolute; width: 6px; height: 6px;
+            background: white; border-radius: 50%;
+            pointer-events: none; z-index: 999;
+            box-shadow: 0 0 10px white;
+        }
+
+        /* Floating Hearts in Background */
+        .heart-bg {
+            position: fixed; color: rgba(255, 105, 180, 0.4);
+            font-size: 20px; z-index: 0; animation: float 6s linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Plumeria Style Flower */
+        .flower {
+            width: 75px; height: 75px;
+            background: radial-gradient(circle, #fff700 0%, #ffffff 60%);
+            border-radius: 50%; margin: 15px auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 3px solid white;
+        }
+
+        /* Main Card */
+        .container {
+            z-index: 1; padding: 25px; margin: 40px 15px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 30px; backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); /* iPhone support */
+            border: 2px solid white; max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        h1 { font-style: italic; color: var(--accent); margin: 5px 0; font-size: 2.2rem; }
+        .harsh-tag { font-size: 1rem; color: #ad1457; font-weight: bold; margin-bottom: 5px; }
+        #age-display { font-size: 0.9rem; margin-bottom: 20px; font-weight: bold; color: #4e342e; }
+
+        /* Countdown Grid */
+        .timer-box { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .time-unit { background: white; padding: 10px 2px; border-radius: 12px; }
+        .number { display: block; font-size: 1.3rem; font-weight: bold; color: var(--accent); }
+        .label { font-size: 0.6rem; text-transform: uppercase; }
+
+        /* Secret Note Style */
+        #secret-area {
+            display: none; padding: 15px; font-style: italic;
+            line-height: 1.7; color: #ad1457; animation: fadeIn 1.2s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .btn {
+            margin-top: 15px; background: white; border: none;
+            padding: 12px 25px; border-radius: 25px;
+            color: var(--accent); font-weight: bold; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(216, 27, 96, 0.2); transition: 0.3s;
+        }
+        .btn:active { transform: scale(0.9); }
+
+        footer { margin-top: auto; padding: 20px; font-size: 0.75rem; color: white; z-index: 1; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="flower"></div>
+        <h1>Chiara</h1>
+        <div class="harsh-tag">Im her love: Harsh ❤️</div>
+        <div id="age-display">Chargement...</div>
+
+        <div id="countdown-wrapper">
+            <p id="status-text" style="font-weight:bold;">Compte à rebours jusqu'à ton jour spécial:</p>
+            <div class="timer-box" id="timer">
+                <div class="time-unit"><span class="number" id="days">00</span><span class="label">Jours</span></div>
+                <div class="time-unit"><span class="number" id="hours">00</span><span class="label">Heures</span></div>
+                <div class="time-unit"><span class="number" id="minutes">00</span><span class="label">Mins</span></div>
+                <div class="time-unit"><span class="number" id="seconds">00</span><span class="label">Secs</span></div>
+            </div>
+        </div>
+
+        <div id="secret-area">
+            <h3>Pour toi, Chiara 💌</h3>
+            <p>"Happy birthday mon amour!!! Je t'aime fort mon bébé. Ce site web est un petit cadeau de ma part. Hoping to see you become a model one day. Tche mari zolie ma chérie d'amour gâtée"</p>
+            <p style="font-size: 0.9rem; font-weight: bold;">— Ton Harsh</p>
+            <button class="btn" onclick="fireConfetti()">Click for Surprise! 🎉</button>
+        </div>
+
+        <button class="btn" id="lockBtn" onclick="checkCode()">🔓 Unlock My Heart</button>
+    </div>
+
+    <footer>Harsh ❤️ Chiara | Forever</footer>
+
+    <script>
+        const BIRTH_DATE = new Date(2009, 1, 1); // Feb 1st
+        const PASSCODE = "1901";
+
+        // Sparkle Trail Logic
+        document.addEventListener('touchmove', (e) => {
+            for (let i = 0; i < e.touches.length; i++) {
+                createSparkle(e.touches[i].pageX, e.touches[i].pageY);
+            }
+        });
+
+        function createSparkle(x, y) {
+            const s = document.createElement('div');
+            s.className = 'sparkle';
+            s.style.left = x + 'px'; s.style.top = y + 'px';
+            document.body.appendChild(s);
+            const anim = s.animate([{opacity: 1, transform: 'scale(1)'}, {opacity: 0, transform: 'scale(0)'}], 800);
+            anim.onfinish = () => s.remove();
+        }
+
+        function fireConfetti() {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ffafbd', '#d81b60', '#fff700'] });
+        }
+
+        function updateUI() {
+            const now = new Date();
+            let age = now.getFullYear() - BIRTH_DATE.getFullYear();
+            if (now.getMonth() < 1 || (now.getMonth() === 1 && now.getDate() < 1)) age--;
+            document.getElementById('age-display').innerText = `Chiara a ${age} ans aujourd'hui`;
+
+            let nextBday = new Date(now.getFullYear(), 1, 1);
+            if (now > nextBday) nextBday.setFullYear(now.getFullYear() + 1);
+            const diff = nextBday - now;
+            
+            if (now.getMonth() === 1 && now.getDate() === 1) {
+                document.getElementById('status-text').innerHTML = "✨ JOYEUX ANNIVERSAIRE CHIARA! ✨";
+                document.getElementById('timer').style.display = "none";
+            } else {
+                document.getElementById('days').innerText = Math.floor(diff / 86400000);
+                document.getElementById('hours').innerText = Math.floor((diff / 3600000) % 24);
+                document.getElementById('minutes').innerText = Math.floor((diff / 60000) % 60);
+                document.getElementById('seconds').innerText = Math.floor((diff / 1000) % 60);
+            }
+        }
+
+        function checkCode() {
+            const secret = document.getElementById('secret-area');
+            const wrapper = document.getElementById('countdown-wrapper');
+            const btn = document.getElementById('lockBtn');
+
+            if (secret.style.display === "block") {
+                secret.style.display = "none";
+                wrapper.style.display = "block";
+                btn.innerText = "🔓 Unlock My Heart";
+                return;
+            }
+
+            let entry = prompt("Entrez le code secret (1901) :");
+            if (entry === PASSCODE) {
+                wrapper.style.display = "none";
+                secret.style.display = "block";
+                btn.innerText = "🔒 Hide Message";
+                fireConfetti();
+            } else if (entry !== null) {
+                alert("Ce n'est pas le bon code, mon amour. ❤️");
+            }
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-bg');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }
+
+        setInterval(updateUI, 1000);
+        setInterval(createHeart, 600);
+        updateUI();
+    </script>
+</body>
+</html>
