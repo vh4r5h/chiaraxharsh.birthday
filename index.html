@@ -3,197 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Pour Chiara, Mon Amour</title>
+    <title>Chiara x Harsh</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        :root { --accent: #d81b60; --soft-pink: #ffafbd; }
-        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Montserrat:wght@200;400&display=swap');
+
+        :root { --vogue-black: #1a1a1a; --gold: #af944d; --plumeria-yellow: #fff3a3; }
         
-        body {
-            margin: 0; padding: 0;
-            background: linear-gradient(to bottom, #ffafbd, #ffc3a0);
-            font-family: 'Georgia', serif;
-            color: #5d4037;
+        body { 
+            margin: 0; padding: 0; background: #fff; 
+            font-family: 'Montserrat', sans-serif; color: var(--vogue-black);
             display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh; overflow: hidden; text-align: center;
-            touch-action: none; /* Smooths sparkle trail on iPhone */
+            min-height: 100vh; overflow-x: hidden; text-align: center;
+            touch-action: none;
         }
 
-        /* Sparkle Trail Effect */
-        .sparkle {
-            position: absolute; width: 6px; height: 6px;
-            background: white; border-radius: 50%;
-            pointer-events: none; z-index: 999;
-            box-shadow: 0 0 10px white;
+        /* Stylized Plumeria Background Flowers */
+        .plumeria {
+            position: fixed; width: 80px; height: 80px; z-index: 0; opacity: 0.6;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.05));
+        }
+        .plumeria-top-right { top: -10px; right: -10px; transform: rotate(15deg); }
+        .plumeria-bottom-left { bottom: 20px; left: -20px; transform: rotate(-20deg); }
+
+        /* The Flower Shape */
+        .flower-shape {
+            position: relative; width: 100%; height: 100%;
+            background: radial-gradient(circle, var(--plumeria-yellow) 0%, white 60%);
+            clip-path: polygon(50% 0%, 80% 10%, 100% 35%, 100% 70%, 80% 90%, 50% 100%, 20% 90%, 0% 70%, 0% 35%, 20% 10%);
+            border-radius: 50%;
         }
 
-        /* Floating Hearts in Background */
-        .heart-bg {
-            position: fixed; color: rgba(255, 105, 180, 0.4);
-            font-size: 20px; z-index: 0; animation: float 6s linear infinite;
-        }
-        @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* Plumeria Style Flower */
-        .flower {
-            width: 75px; height: 75px;
-            background: radial-gradient(circle, #fff700 0%, #ffffff 60%);
-            border-radius: 50%; margin: 15px auto;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 3px solid white;
-        }
-
-        /* Main Card */
         .container {
-            z-index: 1; padding: 25px; margin: 40px 15px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 30px; backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px); /* iPhone support */
-            border: 2px solid white; max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            z-index: 1; padding: 50px 20px; margin: 40px 15px;
+            background: rgba(255, 255, 255, 0.9); 
+            border: 1px solid #000;
+            max-width: 400px; width: 92%;
+            position: relative; backdrop-filter: blur(5px);
         }
 
-        h1 { font-style: italic; color: var(--accent); margin: 5px 0; font-size: 2.2rem; }
-        .harsh-tag { font-size: 1rem; color: #ad1457; font-weight: bold; margin-bottom: 5px; }
-        #age-display { font-size: 0.9rem; margin-bottom: 20px; font-weight: bold; color: #4e342e; }
+        h1 { font-family: 'Bodoni Moda', serif; font-size: 3.2rem; font-weight: 400; letter-spacing: -1px; margin: 0; text-transform: uppercase; }
+        .made-by { font-style: italic; font-size: 0.8rem; margin: 10px 0 30px 0; font-family: 'Bodoni Moda', serif; letter-spacing: 1px; }
 
-        /* Countdown Grid */
-        .timer-box { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .time-unit { background: white; padding: 10px 2px; border-radius: 12px; }
-        .number { display: block; font-size: 1.3rem; font-weight: bold; color: var(--accent); }
-        .label { font-size: 0.6rem; text-transform: uppercase; }
-
-        /* Secret Note Style */
-        #secret-area {
-            display: none; padding: 15px; font-style: italic;
-            line-height: 1.7; color: #ad1457; animation: fadeIn 1.2s ease;
+        /* Hidden Input Vault */
+        #passcode-container { margin-top: 30px; padding-top: 20px; border-top: 0.5px solid #ddd; }
+        .pass-input {
+            width: 100%; padding: 15px 0; margin-bottom: 20px;
+            border: none; border-bottom: 1px solid #000;
+            text-align: center; font-size: 1.5rem; letter-spacing: 12px;
+            background: transparent; outline: none;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .btn {
-            margin-top: 15px; background: white; border: none;
-            padding: 12px 25px; border-radius: 25px;
-            color: var(--accent); font-weight: bold; cursor: pointer;
-            box-shadow: 0 4px 15px rgba(216, 27, 96, 0.2); transition: 0.3s;
+        .timer-box { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 30px 0; }
+        .number { display: block; font-size: 1.4rem; font-family: 'Bodoni Moda', serif; }
+        .label { font-size: 0.5rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.5; }
+
+        #secret-area { display: none; padding: 20px 0; animation: fadeIn 1.5s ease; }
+        
+        .btn-vogue {
+            background: var(--vogue-black); color: white;
+            border: none; padding: 18px; 
+            font-size: 0.65rem; letter-spacing: 3px;
+            text-transform: uppercase; cursor: pointer;
+            width: 100%; font-weight: bold;
         }
-        .btn:active { transform: scale(0.9); }
 
-        footer { margin-top: auto; padding: 20px; font-size: 0.75rem; color: white; z-index: 1; }
+        footer { margin-top: auto; padding: 30px; font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.4; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="flower"></div>
-        <h1>Chiara</h1>
-        <div class="harsh-tag">Im her love: Harsh ❤️</div>
-        <div id="age-display">Chargement...</div>
+    <div class="plumeria plumeria-top-right"><div class="flower-shape"></div></div>
+    <div class="plumeria plumeria-bottom-left"><div class="flower-shape"></div></div>
 
-        <div id="countdown-wrapper">
-            <p id="status-text" style="font-weight:bold;">Compte à rebours jusqu'à ton jour spécial:</p>
-            <div class="timer-box" id="timer">
-                <div class="time-unit"><span class="number" id="days">00</span><span class="label">Jours</span></div>
-                <div class="time-unit"><span class="number" id="hours">00</span><span class="label">Heures</span></div>
-                <div class="time-unit"><span class="number" id="minutes">00</span><span class="label">Mins</span></div>
-                <div class="time-unit"><span class="number" id="seconds">00</span><span class="label">Secs</span></div>
+    <div class="container">
+        <h1>Chiara</h1>
+        <div class="made-by">Made with love par ton petit chou Harsh</div>
+        
+        <div id="main-content">
+            <div id="countdown-wrapper">
+                <div class="timer-box">
+                    <div class="time-unit"><span id="days" class="number">00</span><span class="label">Days</span></div>
+                    <div class="time-unit"><span id="hours" class="number">00</span><span class="label">Hrs</span></div>
+                    <div class="time-unit"><span id="minutes" class="number">00</span><span class="label">Min</span></div>
+                    <div class="time-unit"><span id="seconds" class="number">00</span><span class="label">Sec</span></div>
+                </div>
+            </div>
+
+            <div id="passcode-container">
+                <p style="font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px;">Private Access</p>
+                <input type="password" id="passInput" class="pass-input" placeholder="••••" maxlength="4">
+                <button class="btn-vogue" onclick="checkCode()">Unlock Vault</button>
             </div>
         </div>
 
         <div id="secret-area">
-            <h3>Pour toi, Chiara 💌</h3>
-            <p>"Happy birthday mon amour!!! Je t'aime fort mon bébé. Ce site web est un petit cadeau de ma part. Hoping to see you become a model one day. Tche mari zolie ma chérie d'amour gâtée"</p>
-            <p style="font-size: 0.9rem; font-weight: bold;">— Ton Harsh</p>
-            <button class="btn" onclick="fireConfetti()">Click for Surprise! 🎉</button>
+            <p style="font-family: 'Bodoni Moda', serif; font-size: 1.25rem; line-height: 1.6; font-style: italic;">
+                "Happy birthday mon amour!!! Je t'aime fort mon bébé. Ce site web est un petit cadeau de ton Harsh. Hoping to see you become a model one day. Tche mari zolie ma chérie d'amour gâtée"
+            </p>
+            <p style="letter-spacing: 3px; font-size: 0.7rem; margin: 25px 0;">— POUR TOUJOURS, HARSH</p>
+            <button class="btn-vogue" onclick="sendKisses()" style="background: #e91e63;">Kisses from Harsh 💋</button>
         </div>
-
-        <button class="btn" id="lockBtn" onclick="checkCode()">🔓 Unlock My Heart</button>
     </div>
 
-    <footer>Harsh ❤️ Chiara | Forever</footer>
+    <footer>Harsh ❤️ Chiara | © 2026</footer>
 
     <script>
-        const BIRTH_DATE = new Date(2009, 1, 1); // Feb 1st
         const PASSCODE = "1901";
-
-        // Sparkle Trail Logic
-        document.addEventListener('touchmove', (e) => {
-            for (let i = 0; i < e.touches.length; i++) {
-                createSparkle(e.touches[i].pageX, e.touches[i].pageY);
-            }
-        });
-
-        function createSparkle(x, y) {
-            const s = document.createElement('div');
-            s.className = 'sparkle';
-            s.style.left = x + 'px'; s.style.top = y + 'px';
-            document.body.appendChild(s);
-            const anim = s.animate([{opacity: 1, transform: 'scale(1)'}, {opacity: 0, transform: 'scale(0)'}], 800);
-            anim.onfinish = () => s.remove();
-        }
-
-        function fireConfetti() {
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ffafbd', '#d81b60', '#fff700'] });
-        }
 
         function updateUI() {
             const now = new Date();
-            let age = now.getFullYear() - BIRTH_DATE.getFullYear();
-            if (now.getMonth() < 1 || (now.getMonth() === 1 && now.getDate() < 1)) age--;
-            document.getElementById('age-display').innerText = `Chiara a ${age} ans aujourd'hui`;
-
-            let nextBday = new Date(now.getFullYear(), 1, 1);
-            if (now > nextBday) nextBday.setFullYear(now.getFullYear() + 1);
-            const diff = nextBday - now;
+            const bday = new Date(now.getFullYear(), 1, 1);
+            if (now > bday) bday.setFullYear(now.getFullYear() + 1);
+            const diff = bday - now;
             
-            if (now.getMonth() === 1 && now.getDate() === 1) {
-                document.getElementById('status-text').innerHTML = "✨ JOYEUX ANNIVERSAIRE CHIARA! ✨";
-                document.getElementById('timer').style.display = "none";
-            } else {
-                document.getElementById('days').innerText = Math.floor(diff / 86400000);
-                document.getElementById('hours').innerText = Math.floor((diff / 3600000) % 24);
-                document.getElementById('minutes').innerText = Math.floor((diff / 60000) % 60);
-                document.getElementById('seconds').innerText = Math.floor((diff / 1000) % 60);
-            }
+            document.getElementById('days').innerText = String(Math.floor(diff / 86400000)).padStart(2, '0');
+            document.getElementById('hours').innerText = String(Math.floor((diff / 3600000) % 24)).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(Math.floor((diff / 60000) % 60)).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
         }
 
         function checkCode() {
-            const secret = document.getElementById('secret-area');
-            const wrapper = document.getElementById('countdown-wrapper');
-            const btn = document.getElementById('lockBtn');
-
-            if (secret.style.display === "block") {
-                secret.style.display = "none";
-                wrapper.style.display = "block";
-                btn.innerText = "🔓 Unlock My Heart";
-                return;
-            }
-
-            let entry = prompt("Entrez le code secret (1901) :");
-            if (entry === PASSCODE) {
-                wrapper.style.display = "none";
-                secret.style.display = "block";
-                btn.innerText = "🔒 Hide Message";
-                fireConfetti();
-            } else if (entry !== null) {
-                alert("Ce n'est pas le bon code, mon amour. ❤️");
+            const val = document.getElementById('passInput').value;
+            if (val === PASSCODE) {
+                document.getElementById('main-content').style.display = "none";
+                document.getElementById('secret-area').style.display = "block";
+                sendKisses();
+            } else {
+                alert("Incorrect. ❤️");
+                document.getElementById('passInput').value = "";
             }
         }
 
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart-bg');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 6000);
+        function sendKisses() {
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#fff3a3', '#ff69b4', '#ffffff'] });
         }
 
         setInterval(updateUI, 1000);
-        setInterval(createHeart, 600);
         updateUI();
+
+        // Finger sparkle trail
+        document.addEventListener('touchmove', (e) => {
+            const s = document.createElement('div');
+            s.innerHTML = '✨';
+            s.style.position = 'absolute';
+            s.style.left = e.touches[0].pageX + 'px';
+            s.style.top = e.touches[0].pageY + 'px';
+            s.style.pointerEvents = 'none';
+            document.body.appendChild(s);
+            s.animate([{opacity: 1}, {opacity: 0}], 800).onfinish = () => s.remove();
+        });
     </script>
 </body>
 </html>
